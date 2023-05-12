@@ -1,0 +1,30 @@
+.game-grid, .subgrid {
+	display: inline-grid;
+	grid-template-columns: repeat(3, auto);
+	grid-template-rows: repeat(3, auto);
+}
+
+.cell {
+	height: 20px;
+	width: 20px;
+	display: inline-grid;
+	place-content: center;
+	cursor: pointer;
+}
+
+.cell, .subgrid {
+	border-left: 2px solid var(--fg-color);
+	border-top: 2px solid var(--fg-color);
+}
+
+.cell:nth-child(3n+1), .subgrid:nth-child(3n+1) {
+	border-left: none;
+}
+
+.cell:nth-child(1), .cell:nth-child(2), .cell:nth-child(3), .subgrid:nth-child(1), .subgrid:nth-child(2), .subgrid:nth-child(3) {
+	border-top: none;
+}
+
+.subgrid {
+	padding: 10px;
+}
