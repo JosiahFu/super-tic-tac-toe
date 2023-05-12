@@ -27,17 +27,18 @@ const App = () => {
 	}
 	
 	const handleCellClick = (index: number, subindex: number) => {
-		setCell(index, subindex, turn);
-		toggleTurn();
+		if (game[index][subindex] === null) {
+			setCell(index, subindex, turn);
+			toggleTurn();
+		}
 	}
 
 	return (
 		<main>
-			<h1>Test</h1>
-			<GameGrid grid={game} onCellClick={handleCellClick} />
+			<GameGrid grid={game} onCellClick={handleCellClick} turn={turn} />
 		</main>
 	);
 };
 
 export default App;
-export type { Mark, SubGridData, GameGridData };
+export type { Player, Mark, SubGridData, GameGridData };

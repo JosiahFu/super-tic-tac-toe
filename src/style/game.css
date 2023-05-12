@@ -1,30 +1,93 @@
-.game-grid, .subgrid {
-	display: inline-grid;
-	grid-template-columns: repeat(3, auto);
-	grid-template-rows: repeat(3, auto);
+.game-grid {
+    width: 80vmin;
+    height: 80vmin;
+    --border-width: 0.3em;
+    --player-1-color: #ff0000;
+    --player-2-color: #007fff;
+}
+
+.game-grid,
+.subgrid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
 }
 
 .cell {
-	height: 20px;
-	width: 20px;
-	display: inline-grid;
-	place-content: center;
-	cursor: pointer;
+    /*Needed to position pseudo-children*/
+    position: relative
 }
 
-.cell, .subgrid {
-	border-left: 2px solid var(--fg-color);
-	border-top: 2px solid var(--fg-color);
+.cell.none {
+    cursor: pointer;
 }
 
-.cell:nth-child(3n+1), .subgrid:nth-child(3n+1) {
-	border-left: none;
+.cell,
+.subgrid {
+    border-left: var(--border-width) solid var(--fg-color);
+    border-top: var(--border-width) solid var(--fg-color);
 }
 
-.cell:nth-child(1), .cell:nth-child(2), .cell:nth-child(3), .subgrid:nth-child(1), .subgrid:nth-child(2), .subgrid:nth-child(3) {
-	border-top: none;
+.cell:nth-child(3n+1),
+.subgrid:nth-child(3n+1) {
+    border-left: none;
+}
+
+.cell:nth-child(1),
+.cell:nth-child(2),
+.cell:nth-child(3),
+.subgrid:nth-child(1),
+.subgrid:nth-child(2),
+.subgrid:nth-child(3) {
+    border-top: none;
 }
 
 .subgrid {
-	padding: 10px;
+    padding: 10%;
+}
+
+.none::before,
+.none::after {
+    opacity: 0.5;
+}
+
+.player-1::before,
+.player-1::after,
+.player-2::before,
+.player-1-turn .none:hover::before,
+.player-1-turn .none:hover::after,
+.player-2-turn .none:hover::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.player-1::before,
+.player-1::after,
+.player-1-turn .none:hover::before,
+.player-1-turn .none:hover::after {
+    height: var(--border-width);
+    width: 100%;
+    background-color: var(--player-1-color);
+}
+
+.player-1::before,
+.player-1-turn .none:hover::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.player-1::after,
+.player-1-turn .none:hover::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.player-2::before,
+.player-2-turn .none:hover::before {
+    width: 80%;
+    height: 80%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: var(--border-width) solid var(--player-2-color);
+    transform: translate(-50%, -50%);
 }
