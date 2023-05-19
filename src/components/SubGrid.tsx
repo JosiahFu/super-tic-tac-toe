@@ -1,20 +1,20 @@
 import { h } from 'preact';
 import Cell from './Cell';
-import { Mark, MarkGrid } from 'src/App';
-import { classList } from 'src/Util';
+import { MarkGrid, checkWinner } from '../Game';
 
-const SubGrid = ({ grid, win, onCellClick }: {
+const SubGrid = ({ grid, onCellClick }: {
     grid: MarkGrid,
-    win: Mark,
     onCellClick: (index: number) => void
 }) => {
-    const winPlayerClass = {
+    const winner = checkWinner(grid);
+
+    const winnerClass = {
         null: '',
         Player_1: 'player-1',
         Player_2: 'player-2'
-    }[win];
+    }[winner];
 
-    return (<div class={`subgrid ${winPlayerClass}`}>
+    return (<div class={`subgrid ${winnerClass}`}>
     {grid.map((mark, i) => (
         <Cell key={i} mark={mark} onClick={() => onCellClick(i)} />
     ))}

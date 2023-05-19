@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Mark } from "src/App";
+import { Mark } from "src/Game";
 
 const Cell = ({mark, onClick}:{
     mark: Mark,
