@@ -1,9 +1,10 @@
 import { h } from 'preact';
-import { GameGridData, Player } from 'src/App';
+import { MarkGrid, MarkGridGrid, Player } from 'src/App';
 import SubGrid from './SubGrid';
 
-const GameGrid = ({ grid, onCellClick, turn }: {
-    grid: GameGridData,
+const GameGrid = ({ grids, supergrid, onCellClick, turn }: {
+    grids: MarkGridGrid,
+    supergrid: MarkGrid,
     onCellClick: (index: number, subindex: number) => void,
     turn: Player
 }) => {
@@ -13,8 +14,8 @@ const GameGrid = ({ grid, onCellClick, turn }: {
     }[turn];
 
     return (<div class={`game-grid ${playerClass}`}>
-        {grid.map((subgrid, i) => (
-            <SubGrid key={i} grid={subgrid} onCellClick={(subindex) => onCellClick(i, subindex)} />
+        {grids.map((subgrid, i) => (
+            <SubGrid key={i} grid={subgrid} win={supergrid[i]} onCellClick={(subindex) => onCellClick(i, subindex)} />
         ))}
     </div>);
 };

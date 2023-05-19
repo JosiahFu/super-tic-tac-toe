@@ -33,12 +33,8 @@
     border-left: none;
 }
 
-.cell:nth-child(1),
-.cell:nth-child(2),
-.cell:nth-child(3),
-.subgrid:nth-child(1),
-.subgrid:nth-child(2),
-.subgrid:nth-child(3) {
+.cell:nth-child(-n+3),
+.subgrid:nth-child(-n+3) {
     border-top: none;
 }
 
