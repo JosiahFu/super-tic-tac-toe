@@ -20,6 +20,8 @@ jobs:
       - run: npm ci
       
       - name: Build app
+        env:
+          GITHUB_PAGES: super-tic-tac-toe
         run: npm run build-gh
         
       - name: Upload GitHub Pages artifact
