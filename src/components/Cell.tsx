@@ -1,18 +1,18 @@
 import { h } from "preact";
 import { Mark } from "src/Game";
 
-const Cell = ({mark, onClick}:{
+const Cell = ({ mark, onClick, allowed }: {
     mark: Mark,
-    onClick?: () => void
+    onClick: () => void,
+    allowed: boolean;
 }) => {
     const playerClass = {
-        null: 'none',
+        null: allowed ? 'none' : '',
         Player_1: 'player-1',
         Player_2: 'player-2'
     }[mark];
 
-    return (<div class={`cell ${playerClass}`} onClick={() => onClick ? onClick(/*Potential future arguments*/) : void (0)}>{
-    }</div>);
+    return (<div class={`cell ${playerClass}`} onClick={allowed ? onClick : undefined} />);
 };
 
 export default Cell;

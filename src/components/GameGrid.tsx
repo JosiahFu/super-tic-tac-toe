@@ -1,12 +1,13 @@
 import { h } from 'preact';
-import { MarkGrid, MarkGridGrid, Player, checkWinner } from '../Game';
+import { GridIndex, MarkGrid, MarkGridGrid, Player, checkWinner } from '../Game';
 import SubGrid from './SubGrid';
 import { useMemo } from 'preact/hooks';
 
-const GameGrid = ({ grids, onCellClick, turn }: {
+const GameGrid = ({ grids, onCellClick, turn, nextGrid }: {
     grids: MarkGridGrid,
     onCellClick: (index: number, subindex: number) => void,
-    turn: Player
+    turn: Player,
+    nextGrid: GridIndex
 }) => {
     const winner = useMemo(() => (
         checkWinner(grids.map(checkWinner) as MarkGrid)
@@ -20,11 +21,17 @@ const GameGrid = ({ grids, onCellClick, turn }: {
     const winnerClass = {
         Player_1: 'player-1-winner',
         Player_2: 'player-2-winner'
-    }[winner];
+    }[winner] ?? '';
 
-    return (<div class={`game-grid ${turnClass} ${winnerClass}`}>
+    return (<div class={`game-grid ${turnClass} ${winnerClass} ${nextGrid === null ? 'allowed' : ''}`}>
         {grids.map((subgrid, i) => (
-            <SubGrid key={i} grid={subgrid} onCellClick={(subindex) => onCellClick(i, subindex)} />
+            <div key={i} class="supercell">
+                <SubGrid
+                    grid={subgrid}
+                    onCellClick={(subindex) => onCellClick(i, subindex)}
+                    allowed={(nextGrid === i || nextGrid === null) && winner === null}
+                />
+            </div>
         ))}
     </div>);
 };

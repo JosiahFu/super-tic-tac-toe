@@ -4,6 +4,7 @@ type Player = 'Player_1' | 'Player_2';
 type Mark = Player | null;
 type MarkGrid = Grid<Mark>;
 type MarkGridGrid = Grid<MarkGrid>;
+type GridIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 function checkWinner(grid: MarkGrid): Mark {
     for (const player of ['Player_1', 'Player_2'] as const) {
@@ -21,5 +22,5 @@ function checkWinner(grid: MarkGrid): Mark {
     return null;
 }
 
-export type { Player, Mark, MarkGrid, MarkGridGrid };
+export type { Player, Mark, MarkGrid, MarkGridGrid, GridIndex };
 export { checkWinner };
