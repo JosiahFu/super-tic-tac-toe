@@ -22,7 +22,9 @@ jobs:
       - name: Build app
         env:
           GITHUB_PAGES: super-tic-tac-toe
-        run: npm run build
+        run: |
+          echo '$GITHUB_PAGES'
+          npm run build
         
       - name: Update manifest.json
         run: npx dot-json ./build/manifest.json start_url "/super-tic-tac-toe/"
