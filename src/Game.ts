@@ -1,5 +1,3 @@
-import '../style/game.css';
-
 type Grid<T> = [T, T, T, T, T, T, T, T, T];
 
 type Player = 'Player_1' | 'Player_2';
