@@ -20,11 +20,7 @@ jobs:
       - run: npm ci
       
       - name: Build app
-        env:
-          GITHUB_PAGES: super-tic-tac-toe
-        run: |
-          echo "$GITHUB_PAGES"
-          npm run build
+        run: GITHUB_PAGES=super-tic-tac-toe npm run build
         
       - name: Update manifest.json
         run: npx dot-json ./build/manifest.json start_url "/super-tic-tac-toe/"
