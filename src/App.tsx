@@ -4,13 +4,11 @@ import Game from "./components/Game";
 import basename from "./baseroute";
 
 function App() {
-	return (
-		<main>
-			<Router>
-				<Route path={`${basename}/`} component={Game} />
-			</Router>
-		</main>
-	)
+    return (
+        <main>
+            <Game />
+        </main>
+    )
 }
 
 export default App;
