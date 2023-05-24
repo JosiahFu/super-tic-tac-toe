@@ -19,6 +19,7 @@
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: repeat(3, auto);
+    transition: background-color 0.4s;
 }
 
 .cell {
@@ -79,6 +80,12 @@
     top: 50%;
 }
 
+.player-1::before,
+.player-1::after,
+.player-2::before {
+    animation-fill-mode: both;
+}
+
 .subgrid.player-1::before,
 .subgrid.player-1::after,
 .subgrid.player-2::before {
@@ -116,16 +123,21 @@
 }
 
 .player-2::before {
-    animation: wipe-down 0.2s linear;
+    animation: wipe-down 0.4s linear;
 }
 
 .player-1::before {
-
-    animation: wipe-right 0.2s linear;
+    animation: wipe-right-fast 0.4s linear;
 }
 
 .player-1::after {
-    animation: wipe-right 0.2s 0.2s linear;
+    animation: wipe-right-delay 0.4s linear;
+}
+
+.subgrid.player-2::before,
+.subgrid.player-1::before,
+.subgrid.player-1::after {
+    animation-delay: 0.4s;
     animation-fill-mode: both;
 }
 
@@ -140,7 +152,8 @@
 
 .player-1 .cell,
 .player-2 .cell {
-    opacity: 0.5;
+    animation: dim 0.4s 0.4s;
+    animation-fill-mode: both;
 }
 
 @keyframes wipe-down {
@@ -153,12 +166,41 @@
     }
 }
 
-@keyframes wipe-right {
+@keyframes wipe-right-fast {
     0% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    50% {
+        clip-path: inset(0);
+    }
+
+    100% {
+        clip-path: inset(0);
+    }
+}
+
+
+@keyframes wipe-right-delay {
+    0% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    50% {
         clip-path: inset(0 100% 0 0);
     }
 
     100% {
         clip-path: inset(0);
+    }
+}
+
+@keyframes dim {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
     }
 }
