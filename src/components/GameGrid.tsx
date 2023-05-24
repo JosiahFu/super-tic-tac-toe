@@ -1,17 +1,14 @@
 import { h } from 'preact';
-import { GridIndex, MarkGrid, MarkGridGrid, Player, checkWinner } from '../Game';
+import { GridIndex, Mark, MarkGridGrid, Player } from '../Game';
 import SubGrid from './SubGrid';
-import { useMemo } from 'preact/hooks';
 
-const GameGrid = ({ grids, onCellClick, turn, nextGrid }: {
+const GameGrid = ({ grids, onCellClick, turn, nextGrid, winner }: {
     grids: MarkGridGrid,
     onCellClick: (index: number, subindex: number) => void,
     turn: Player,
-    nextGrid: GridIndex
+    nextGrid: GridIndex,
+    winner: Mark
 }) => {
-    const winner = useMemo(() => (
-        checkWinner(grids.map(checkWinner) as MarkGrid)
-    ), [grids]);
 
     const turnClass = {
         Player_1: 'player-1-turn',
