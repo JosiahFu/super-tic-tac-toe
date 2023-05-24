@@ -27,7 +27,7 @@
     --marker-opacity: 1;
 }
 
-.cell.none {
+.cell.allowed {
     cursor: pointer;
 }
 
@@ -60,17 +60,17 @@
         border-radius: 10%;
 }
 
-.none:hover::before,
-.none:hover::after {
+.cell.allowed:hover::before,
+.cell.allowed:hover::after {
     opacity: 0.5;
 }
 
 .player-1::before,
 .player-1::after,
 .player-2::before,
-.player-1-turn .none:hover::before,
-.player-1-turn .none:hover::after,
-.player-2-turn .none:hover::before {
+.player-1-turn .cell.allowed:hover::before,
+.player-1-turn .cell.allowed:hover::after,
+.player-2-turn .cell.allowed:hover::before {
     content: '';
     position: absolute;
     left: 50%;
@@ -86,25 +86,25 @@
 
 .player-1::before,
 .player-1::after,
-.player-1-turn .none:hover::before,
-.player-1-turn .none:hover::after {
+.player-1-turn .cell.allowed:hover::before,
+.player-1-turn .cell.allowed:hover::after {
     height: var(--marker-border-width);
     width: 100%;
     background-color: var(--player-1-color);
 }
 
 .player-1::before,
-.player-1-turn .none:hover::before {
+.player-1-turn .cell.allowed:hover::before {
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .player-1::after,
-.player-1-turn .none:hover::after {
+.player-1-turn .cell.allowed:hover::after {
     transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .player-2::before,
-.player-2-turn .none:hover::before {
+.player-2-turn .cell.allowed:hover::before {
     width: 80%;
     height: 80%;
     box-sizing: border-box;
@@ -113,7 +113,8 @@
     transform: translate(-50%, -50%);
 }
 
-.allowed {
+.subgrid.allowed,
+.game-grid.allowed {
     background-color: var(--highlight-color);
 }
 

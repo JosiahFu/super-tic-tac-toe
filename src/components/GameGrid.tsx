@@ -20,7 +20,7 @@ const GameGrid = ({ grids, onCellClick, turn, nextGrid, winner }: {
         Player_2: 'player-2-winner'
     }[winner] ?? '';
 
-    return (<div class={`game-grid ${turnClass} ${winnerClass} ${nextGrid === null ? 'allowed' : ''}`}>
+    return (<div class={`game-grid ${turnClass} ${winnerClass} ${(nextGrid === null && winner === null) ? 'allowed' : ''}`}>
         {grids.map((subgrid, i) => (
             <div key={i} class="supercell">
                 <SubGrid

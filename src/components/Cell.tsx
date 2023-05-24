@@ -7,7 +7,7 @@ const Cell = ({ mark, onClick, allowed }: {
     allowed: boolean;
 }) => {
     const playerClass = {
-        null: allowed ? 'none' : '',
+        null: allowed ? 'allowed' : '',
         Player_1: 'player-1',
         Player_2: 'player-2'
     }[mark];
