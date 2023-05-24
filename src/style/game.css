@@ -13,6 +13,7 @@
         --highlight-color: #ffffff1f;
     }
 }
+
 .game-grid,
 .subgrid {
     display: grid;
@@ -46,6 +47,7 @@
 .supercell:nth-child(-n+3) {
     border-top: none;
 }
+
 .supercell {
     --marker-border-width: 1em;
     padding: 5%;
@@ -55,9 +57,9 @@
     /*Needed to position pseudo-children*/
     position: relative;
     padding: 5%;
-        height: 100%;
-        box-sizing: border-box;
-        border-radius: 10%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10%;
 }
 
 .cell.allowed:hover::before,
@@ -100,7 +102,7 @@
 
 .player-1::after,
 .player-1-turn .cell.allowed:hover::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
+    transform: translate(-50%, -50%) rotate(135deg);
 }
 
 .player-2::before,
@@ -111,6 +113,20 @@
     border-radius: 50%;
     border: var(--marker-border-width) solid var(--player-2-color);
     transform: translate(-50%, -50%);
+}
+
+.player-2::before {
+    animation: wipe-down 0.2s linear;
+}
+
+.player-1::before {
+
+    animation: wipe-right 0.2s linear;
+}
+
+.player-1::after {
+    animation: wipe-right 0.2s 0.2s linear;
+    animation-fill-mode: both;
 }
 
 .subgrid.allowed,
@@ -125,4 +141,24 @@
 .player-1 .cell,
 .player-2 .cell {
     opacity: 0.5;
+}
+
+@keyframes wipe-down {
+    0% {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    100% {
+        clip-path: inset(0);
+    }
+}
+
+@keyframes wipe-right {
+    0% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    100% {
+        clip-path: inset(0);
+    }
 }
