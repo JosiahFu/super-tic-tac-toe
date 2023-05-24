@@ -20,7 +20,9 @@ jobs:
       - run: npm ci
       
       - name: Build app
-        run: PUBLIC_URL=https://JosiahFu.github.io/math-notes npm run build
+        run: npm run build
+        
+      - run: npx dot-json ./build/manifest.json start_url \"/super-tic-tac-toe/\""
       
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.4
