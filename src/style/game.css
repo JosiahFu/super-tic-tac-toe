@@ -3,10 +3,16 @@
     height: 80vmin;
     --player-1-color: #ff0000;
     --player-2-color: #007fff;
+    --highlight-color: #0000000f;
     --border-width: 0.3em;
     border-radius: 3%;
 }
 
+@media screen and (prefers-color-scheme: dark) {
+    .game-grid {
+        --highlight-color: #ffffff1f;
+    }
+}
 .game-grid,
 .subgrid {
     display: grid;
@@ -108,7 +114,7 @@
 }
 
 .allowed {
-    background-color: #ffffff1f;
+    background-color: var(--highlight-color);
 }
 
 .allowed .subgrid.allowed {
