@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import Cell from './Cell';
-import { MarkGrid, checkWinner } from '../Game';
+import { MarkGrid, checkWinner } from './Game';
 
 const SubGrid = ({ grid, onCellClick, allowed }: {
     grid: MarkGrid,
