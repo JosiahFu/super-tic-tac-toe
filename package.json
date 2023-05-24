@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact build",
+    "build-gh": "GITHUB_PAGES=super-tic-tac-toe npm run build && dot-json ./build/manifest.json start_url \"/super-tic-tac-toe/\"",
     "serve": "sirv build --cors --single",
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact watch",
     "lint": "eslint src",

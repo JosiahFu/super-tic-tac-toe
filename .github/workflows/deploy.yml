@@ -20,11 +20,8 @@ jobs:
       - run: npm ci
       
       - name: Build app
-        run: GITHUB_PAGES=super-tic-tac-toe npm run build
+        run: npm run build-gh
         
-      - name: Update manifest.json
-        run: npx dot-json ./build/manifest.json start_url "/super-tic-tac-toe/"
-      
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.4
         with:
