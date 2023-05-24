@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_PAGES: super-tic-tac-toe
         run: |
-          echo '$GITHUB_PAGES'
+          echo "$GITHUB_PAGES"
           npm run build
         
       - name: Update manifest.json
