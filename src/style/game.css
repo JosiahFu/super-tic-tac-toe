@@ -123,7 +123,7 @@
 }
 
 .player-2::before {
-    animation: wipe-down 0.4s linear;
+    animation: wipe-radial 0.4s linear;
 }
 
 .player-1::before {
@@ -156,13 +156,21 @@
     animation-fill-mode: both;
 }
 
-@keyframes wipe-down {
+@keyframes wipe-radial {
     0% {
-        clip-path: inset(0 0 100% 0);
+        clip-path: polygon(50% 50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%);
     }
-
+    25% {
+        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 150% 50%, 150% 50%, 150% 50%);
+    }
+    50% {
+        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, 50% 150%, 50% 150%);
+    }
+    75% {
+        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, -50% 50%);
+    }
     100% {
-        clip-path: inset(0);
+        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, 50% -50%);
     }
 }
 
