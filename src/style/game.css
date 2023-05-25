@@ -1,17 +1,25 @@
 .game-grid {
-    width: 80vmin;
-    height: 80vmin;
+    width: 90vmin;
+    height: 90vmin;
     --player-1-color: #ff0000;
     --player-2-color: #007fff;
     --highlight-color: #0000000f;
-    --border-width: 0.3em;
+    --border-width: max(2px, 0.5vmin);
     border-radius: 3%;
     padding: 2%;
+    box-sizing: border-box;
 }
 
 @media screen and (prefers-color-scheme: dark) {
     .game-grid {
         --highlight-color: #ffffff1f;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .game-grid {
+        width: 80vmin;
+        height: 80vmin;
     }
 }
 
@@ -26,7 +34,7 @@
 .cell {
     /*Needed to position pseudo-children*/
     position: relative;
-    --marker-border-width: 0.3em;
+    --marker-border-width: max(3px, 0.5vmin);
 }
 
 .cell.allowed {
@@ -50,7 +58,7 @@
 }
 
 .supercell {
-    --marker-border-width: 1em;
+    --marker-border-width: max(8px, 2vmin);
     padding: 5%;
 }
 
