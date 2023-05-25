@@ -17,7 +17,8 @@ const GameGrid = ({ grids, onCellClick, turn, nextGrid, winner }: {
 
     const winnerClass = {
         Player_1: 'player-1-winner',
-        Player_2: 'player-2-winner'
+        Player_2: 'player-2-winner',
+        tie: ''
     }[winner] ?? '';
 
     return (<div class={`game-grid ${turnClass} ${winnerClass} ${(nextGrid === null && winner === null) ? 'allowed' : ''}`}>

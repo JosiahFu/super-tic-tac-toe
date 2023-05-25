@@ -158,7 +158,8 @@
 }
 
 .player-1 .cell,
-.player-2 .cell {
+.player-2 .cell,
+.tie .cell {
     animation: dim 0.4s 0.4s;
     animation-fill-mode: both;
 }

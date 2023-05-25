@@ -10,10 +10,10 @@ const SubGrid = ({ grid, onCellClick, allowed }: {
     const winner = checkWinner(grid);
 
     const winnerClass = {
-        null: '',
         Player_1: 'player-1',
-        Player_2: 'player-2'
-    }[winner];
+        Player_2: 'player-2',
+        tie: 'tie'
+    }[winner] ?? '';
 
     return (<div class={`subgrid ${winnerClass} ${allowed ? 'allowed' : ''}`}>
     {grid.map((mark, i) => (

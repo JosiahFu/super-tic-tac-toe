@@ -2,11 +2,12 @@ type Grid<T> = [T, T, T, T, T, T, T, T, T];
 
 type Player = 'Player_1' | 'Player_2';
 type Mark = Player | null;
+type WinnerMark = Player | 'tie' | null;
 type MarkGrid = Grid<Mark>;
 type MarkGridGrid = Grid<MarkGrid>;
 type GridIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
-function checkWinner(grid: MarkGrid): Mark {
+function checkWinner(grid: MarkGrid): WinnerMark {
     for (const player of ['Player_1', 'Player_2'] as const) {
         const checkIndices = (indices: number[]) => (
             indices.map(e => grid[e]).every(e => e === player)
@@ -19,7 +20,10 @@ function checkWinner(grid: MarkGrid): Mark {
         if (checkIndices([0, 4, 8])) return player;
         if (checkIndices([2, 4, 6])) return player;
     }
-    return null;
+
+    if (grid.some(e => e === null)) return null;
+
+    return 'tie';
 }
 
 export type { Player, Mark, MarkGrid, MarkGridGrid, GridIndex };
