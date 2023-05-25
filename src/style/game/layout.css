@@ -1,0 +1,31 @@
+.game-grid {
+    width: 90vmin;
+    height: 90vmin;
+    padding: 2%;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 500px) {
+    .game-grid {
+        width: 80vmin;
+        height: 80vmin;
+    }
+}
+
+.game-grid,
+.subgrid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+}
+
+.supercell {
+    padding: 5%;
+}
+
+.subgrid {
+    padding: 5%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10%;
+}

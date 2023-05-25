@@ -2,7 +2,9 @@ import { h } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import { GridIndex, Mark, MarkGrid, MarkGridGrid, Player, checkWinner } from "./Game";
 import GameGrid from "./components/GameGrid";
-import './style/game.css';
+import './style/game/layout.css';
+import './style/game/grid.css';
+import './style/game/markers.css';
 
 function App() {
     const [grids, setGrids] = useState<MarkGridGrid>(Array(9).fill(Array(9).fill(null) as MarkGrid) as MarkGridGrid);

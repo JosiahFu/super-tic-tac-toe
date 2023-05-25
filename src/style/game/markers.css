@@ -1,0 +1,136 @@
+/* VARIABLES AND POSITIONING */
+
+.game-grid {
+    --player-1-color: #ff0000;
+    --player-2-color: #007fff;
+}
+
+.subgrid {
+    /*Needed to position pseudo-children*/
+    position: relative;
+    --marker-border-width: max(8px, 2vmin);
+}
+
+.cell {
+    /*Needed to position pseudo-children*/
+    position: relative;
+    --marker-border-width: max(3px, 0.5vmin);
+}
+
+.cell.allowed {
+    cursor: pointer;
+}
+
+/* DRAWING */
+
+.player-1::before,
+.player-1::after,
+.player-2::before,
+.player-1-turn .cell.allowed::before,
+.player-1-turn .cell.allowed::after,
+.player-2-turn .cell.allowed::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.player-1::before,
+.player-1::after,
+.player-1-turn .cell.allowed::before,
+.player-1-turn .cell.allowed::after {
+    height: var(--marker-border-width);
+    width: 100%;
+    background-color: var(--player-1-color);
+}
+
+.player-1::before,
+.player-1-turn .cell.allowed::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.player-1::after,
+.player-1-turn .cell.allowed::after {
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.player-2::before,
+.player-2-turn .cell.allowed::before {
+    width: 80%;
+    height: 80%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: var(--marker-border-width) solid var(--player-2-color);
+    transform: translate(-50%, -50%);
+}
+
+/* ANIMATION CONTROL */
+
+.player-1::before,
+.player-1::after,
+.player-2::before {
+    animation-fill-mode: both;
+}
+
+.player-2::before {
+    animation: wipe-radial 0.4s linear;
+}
+
+.player-1::before {
+    animation: wipe-right-fast 0.4s linear;
+}
+
+.player-1::after {
+    animation: wipe-right-delay 0.4s linear;
+}
+
+/* SUBGRID ADJUSTMENTS */
+
+.subgrid.player-1::before,
+.subgrid.player-1::after,
+.subgrid.player-2::before {
+    z-index: 1;
+}
+
+.subgrid.player-2::before,
+.subgrid.player-1::before,
+.subgrid.player-1::after {
+    animation-delay: 0.4s;
+    animation-fill-mode: both;
+}
+
+/* CELL HOVER */
+
+.cell.allowed::before,
+.cell.allowed::after {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.cell.allowed:hover::before,
+.cell.allowed:hover::after {
+    opacity: 0.4;
+    transition: opacity 0.15s;
+}
+
+/* ANIMATION KEYFRAMES */
+
+@keyframes wipe-radial {
+    0%   { clip-path: polygon(50% 50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%); }
+    25%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 150% 50%, 150% 50%, 150% 50%); }
+    50%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, 50% 150%, 50% 150%); }
+    75%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, -50% 50%); }
+    100% { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, 50% -50%); }
+}
+
+@keyframes wipe-right-fast {
+    0%   { clip-path: inset(0 100% 0 0); }
+    50%  { clip-path: inset(0); }
+    100% { clip-path: inset(0); }
+}
+
+@keyframes wipe-right-delay {
+    0%   { clip-path: inset(0 100% 0 0); }
+    50%  { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0); }
+}

@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { GridIndex, Mark, MarkGridGrid, Player } from '../Game';
+import { GridIndex, Winner, MarkGridGrid, Player } from '../Game';
 import SubGrid from './SubGrid';
 
 const GameGrid = ({ grids, onCellClick, turn, nextGrid, winner }: {
@@ -7,7 +7,7 @@ const GameGrid = ({ grids, onCellClick, turn, nextGrid, winner }: {
     onCellClick: (index: number, subindex: number) => void,
     turn: Player,
     nextGrid: GridIndex,
-    winner: Mark
+    winner: Winner
 }) => {
 
     const turnClass = {
