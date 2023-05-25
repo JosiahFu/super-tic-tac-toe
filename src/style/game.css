@@ -6,6 +6,7 @@
     --highlight-color: #0000000f;
     --border-width: 0.3em;
     border-radius: 3%;
+    padding: 2%;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -26,7 +27,6 @@
     /*Needed to position pseudo-children*/
     position: relative;
     --marker-border-width: 0.3em;
-    --marker-opacity: 1;
 }
 
 .cell.allowed {
@@ -63,17 +63,24 @@
     border-radius: 10%;
 }
 
+.cell.allowed::before,
+.cell.allowed::after {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
 .cell.allowed:hover::before,
 .cell.allowed:hover::after {
-    opacity: 0.5;
+    opacity: 0.4;
+    transition: opacity 0.15s;
 }
 
 .player-1::before,
 .player-1::after,
 .player-2::before,
-.player-1-turn .cell.allowed:hover::before,
-.player-1-turn .cell.allowed:hover::after,
-.player-2-turn .cell.allowed:hover::before {
+.player-1-turn .cell.allowed::before,
+.player-1-turn .cell.allowed::after,
+.player-2-turn .cell.allowed::before {
     content: '';
     position: absolute;
     left: 50%;
@@ -95,25 +102,25 @@
 
 .player-1::before,
 .player-1::after,
-.player-1-turn .cell.allowed:hover::before,
-.player-1-turn .cell.allowed:hover::after {
+.player-1-turn .cell.allowed::before,
+.player-1-turn .cell.allowed::after {
     height: var(--marker-border-width);
     width: 100%;
     background-color: var(--player-1-color);
 }
 
 .player-1::before,
-.player-1-turn .cell.allowed:hover::before {
+.player-1-turn .cell.allowed::before {
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .player-1::after,
-.player-1-turn .cell.allowed:hover::after {
+.player-1-turn .cell.allowed::after {
     transform: translate(-50%, -50%) rotate(135deg);
 }
 
 .player-2::before,
-.player-2-turn .cell.allowed:hover::before {
+.player-2-turn .cell.allowed::before {
     width: 80%;
     height: 80%;
     box-sizing: border-box;
@@ -209,6 +216,6 @@
     }
 
     100% {
-        opacity: 0.5;
+        opacity: 0.4;
     }
 }
