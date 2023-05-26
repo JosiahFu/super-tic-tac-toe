@@ -1,15 +1,24 @@
 import { h } from "preact";
-import { useMemo, useState } from "preact/hooks";
+import { useMemo, useRef, useState } from "preact/hooks";
 import { GridIndex, Mark, MarkGrid, MarkGridGrid, Player, checkWinner } from "./Game";
 import GameGrid from "./components/GameGrid";
 import './style/game/layout.css';
 import './style/game/grid.css';
 import './style/game/markers.css';
+import './style/game/button.css';
 
 function App() {
     const [grids, setGrids] = useState<MarkGridGrid>(Array(9).fill(Array(9).fill(null) as MarkGrid) as MarkGridGrid);
     const [turn, setTurn] = useState<Player>('Player_1');
     const [nextGrid, setNextGrid] = useState<null | GridIndex>(null);
+    const history = useRef<{ grids: typeof grids, turn: typeof turn, nextGrid: typeof nextGrid }[]>([]);
+
+    const undo = () => {
+        const historyItem = history.current.pop();
+        setGrids(historyItem.grids);
+        setTurn(historyItem.turn);
+        setNextGrid(historyItem.nextGrid);
+    }
 
     const winner = useMemo(() => (
         checkWinner(grids.map(checkWinner) as MarkGrid)
@@ -32,6 +41,7 @@ function App() {
             setGrids(newGrids);
             console.log(newGrids);
             setNextGrid(checkWinner(newGrids[subindex]) === null ? subindex : null);
+            history.current.push({ grids, turn, nextGrid });
             toggleTurn();
         }
     }
@@ -39,6 +49,7 @@ function App() {
     return (
         <main>
             <GameGrid grids={grids} onCellClick={handleCellClick} turn={turn} nextGrid={nextGrid} winner={winner} />
+            <button onClick={undo} className={`undo ${history.current.length === 0 ? 'hidden' : ''}`}>&#8630;</button>
         </main>
     );
 }

@@ -1,0 +1,29 @@
+button {
+    background-color: #0000001f;
+    border: none;
+    transition: opacity 0.5s, background-color 0.1s;
+    text-align: center;
+    font-size: 3em;
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 10%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0000002f
+}
+
+.hidden {
+    opacity: 0;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    button {
+        background-color: #ffffff2f;
+    }
+
+    button:hover {
+        background-color: #ffffff1f;
+    }
+}
