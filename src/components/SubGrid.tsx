@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import Cell from './Cell';
-import { MarkGrid, checkWinner } from '../Game';
+import { Grid, Mark, checkWinner } from '../Game';
 
 const SubGrid = ({ grid, onCellClick, allowed }: {
-    grid: MarkGrid,
+    grid: Grid<Mark>,
     onCellClick: (index: number) => void,
     allowed: boolean
 }) => {

@@ -1,9 +1,24 @@
-/* VARIABLES */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .game-grid {
+    width: 90vmin;
+    height: 90vmin;
+    padding: 2%;
+    box-sizing: border-box;
     --highlight-color: #0000000f;
     --border-width: max(2px, 0.5vmin);
     border-radius: 3%;
+}
+
+@media screen and (min-width: 500px) {
+    .game-grid {
+        width: 80vmin;
+        height: 80vmin;
+    }
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -35,6 +50,20 @@
 .game-grid,
 .subgrid {
     transition: background-color 0.4s;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+}
+
+.supercell {
+    padding: 5%;
+}
+
+.subgrid {
+    padding: 5%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10%;
 }
 
 .subgrid.allowed,
