@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact build",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact build --no-inline-css",
     "build-gh": "npm run build && dot-json ./build/manifest.json start_url \"/$GITHUB_PAGES/\"",
     "serve": "sirv build --cors --single",
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact watch",
