@@ -104,22 +104,16 @@
 
 /* FILL ANIMATIONS */
 
-.player1Win > .player1::before,
-.player1Win > .player1::after,
 .player2Win > .player2 {
-    animation-fill-mode: both;
-}
-
-.player2Win > .player2 {
-    animation: wipe-radial 0.4s linear;
+    animation: wipe-radial 0.4s linear both;
 }
 
 .player1Win > .player1::before {
-    animation: wipe-right-fast 0.4s linear;
+    animation: wipe-right-fast 0.4s linear both;
 }
 
 .player1Win > .player1::after {
-    animation: wipe-right-delay 0.4s linear;
+    animation: wipe-right-delay 0.4s linear both;
 }
 
 /* Adjust subgrid animation */
