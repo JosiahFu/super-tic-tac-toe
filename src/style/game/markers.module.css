@@ -34,78 +34,92 @@
 
 /* DRAWING */
 
+.player1 {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
+
 .player1::before,
-.player1::after,
-.player2::before,
-.player1Turn .mark.allowed::before,
-.player1Turn .mark.allowed::after,
-.player2Turn .mark.allowed::before {
+.player1::after {
+    height: var(--marker-border-width);
+    width: 100%;
+    background-color: var(--player1-color);
     content: '';
     position: absolute;
     left: 50%;
     top: 50%;
 }
 
-.player1::before,
-.player1::after,
-.player1Turn .mark.allowed::before,
-.player1Turn .mark.allowed::after {
-    height: var(--marker-border-width);
-    width: 100%;
-    background-color: var(--player1-color);
-}
-
-.player1::before,
-.player1Turn .mark.allowed::before {
+.player1::before {
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.player1::after,
-.player1Turn .mark.allowed::after {
+.player1::after {
     transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.player2::before,
-.player2Turn .mark.allowed::before {
+.player2 {
     width: 80%;
     height: 80%;
     box-sizing: border-box;
     border-radius: 50%;
     border: var(--marker-border-width) solid var(--player2-color);
     transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
 }
 
 /* ANIMATION CONTROL */
 
-.player1::before,
-.player1::after,
-.player2::before {
+.player1, .player2 {
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.player1Turn .mark.allowed:hover .player1,
+.player2Turn .mark.allowed:hover .player2 {
+    opacity: 0.4;
+    transition: opacity 0.15s;
+}
+
+.player1Win > .player1,
+.player2Win > .player2 {
+    opacity: 1;
+    transition: opacity 0s;
+}
+
+.player1Win > .player1::before,
+.player1Win > .player1::after,
+.player2Win > .player2 {
     animation-fill-mode: both;
 }
 
-.player2::before {
+.player2Win > .player2 {
     animation: wipe-radial 0.4s linear;
 }
 
-.player1::before {
+.player1Win > .player1::before {
     animation: wipe-right-fast 0.4s linear;
 }
 
-.player1::after {
+.player1Win > .player1::after {
     animation: wipe-right-delay 0.4s linear;
 }
 
 /* SUBGRID ADJUSTMENTS */
 
-.subgrid.player1::before,
-.subgrid.player1::after,
-.subgrid.player2::before {
+/* .subgrid > .player1
+.subgrid > .player2 {
     z-index: 1;
-}
+} */
 
-.subgrid.player2::before,
-.subgrid.player1::before,
-.subgrid.player1::after {
+.subgrid > .player1::before,
+.subgrid > .player1::after,
+.subgrid > .player2 {
     animation-delay: 0.4s;
     animation-fill-mode: both;
 }
@@ -130,36 +144,15 @@
 
 /* WIN DIMMING */
 
-.player1 .mark,
-.player2 .mark,
+.mark {
+    transition: opacity 0.4s;
+}
+
+.player1Win .mark,
+.player2Win .mark,
 .tie .mark {
-    animation: dim 0.4s 0.4s;
-    animation-fill-mode: both;
-}
-
-@keyframes dim {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0.4;
-    }
-}
-
-
-/* CELL HOVER */
-
-.mark.allowed::before,
-.mark.allowed::after {
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.mark.allowed:hover::before,
-.mark.allowed:hover::after {
     opacity: 0.4;
-    transition: opacity 0.15s;
+    transition: opacity 0.4s 0.4s;
 }
 
 /* ANIMATION KEYFRAMES */

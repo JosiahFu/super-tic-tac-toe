@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { Mark } from "../Game";
-import markStyles from '../style/game/markers.module.css';
+import markerStyles from '../style/game/markers.module.css';
 import gridStyles from '../style/game/grid.module.css';
 import { classList as cl } from "../Util";
 
@@ -11,14 +11,17 @@ const Cell = ({ mark, onClick, allowed }: {
 }) => {
     return (<div
         class={cl(
-            markStyles.mark,
+            markerStyles.mark,
             gridStyles.cell,
-            mark === null && allowed && markStyles.allowed,
-            mark === 'Player_1' && markStyles.player1,
-            mark === 'Player_2' && markStyles.player2
+            mark === null && allowed && markerStyles.allowed,
+            mark === 'Player_1' && markerStyles.player1Win,
+            mark === 'Player_2' && markerStyles.player2Win
         )}
         onClick={allowed ? onClick : undefined}
-    />);
+    >
+        <div class={markerStyles.player1} />
+        <div class={markerStyles.player2} />
+    </div>);
 };
 
 export default Cell;

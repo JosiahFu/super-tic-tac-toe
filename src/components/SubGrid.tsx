@@ -16,19 +16,21 @@ const SubGrid = ({ grid, onCellClick, allowed }: {
         gridStyles.grid,
         gridStyles.subgrid,
         markerStyles.subgrid,
-        winner === 'Player_1' && markerStyles.player1,
-        winner === 'Player_2' && markerStyles.player2,
+        winner === 'Player_1' && markerStyles.player1Win,
+        winner === 'Player_2' && markerStyles.player2Win,
         winner === 'tie' && markerStyles.tie,
         markerStyles.allowable,
         allowed && markerStyles.allowed
     )}>
-    {grid.map((mark, i) => (
-        <Cell
-            key={i}
-            mark={mark}
-            onClick={() => onCellClick(i)}
-            allowed={allowed && winner === null} />
-    ))}
+        {grid.map((mark, i) => (
+            <Cell
+                key={i}
+                mark={mark}
+                onClick={() => onCellClick(i)}
+                allowed={allowed && winner === null} />
+        ))}
+        <div class={markerStyles.player1} />
+        <div class={markerStyles.player2} />
     </div>);
 }
 
