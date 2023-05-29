@@ -1,11 +1,11 @@
 button {
     background-color: #0000001f;
     border: none;
-    transition: background-color 0.1s;
+    transition: opacity 0.4s, background-color 0.1s;
     text-align: center;
-    font-size: 3em;
-    height: 1.5em;
-    width: 1.5em;
+    font-size: 6vmin;
+    height: 8vmin;
+    width: 8vmin;
     border-radius: 10%;
     cursor: pointer;
 }
@@ -23,8 +23,19 @@ button:active {
     cursor: initial;
 }
 
+.delayed {
+    transition: opacity 0.4s 0.8s, background-color 0.2s;
+}
+
+.delayed.hidden {
+    transition: opacity 0.4s, background-color 0.1s;
+}
+
 .buttonPanel {
     display: flex;
+    flex-direction: row;
+    gap: 2vmin;
+    padding: 2vmin;
 }
 
 @media screen and (prefers-color-scheme: dark) {
