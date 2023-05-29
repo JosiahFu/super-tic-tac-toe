@@ -18,6 +18,13 @@ function App() {
         setNextGrid(historyItem.nextGrid);
     }
 
+    const reset = () => {
+        setGrids(history.current[0].grids);
+        setTurn(history.current[0].turn);
+        setNextGrid(history.current[0].nextGrid);
+        history.current = [];
+    }
+
     const winner = useMemo(() => (
         checkWinner(grids.map(checkWinner) as Grid<Mark>)
     ), [grids]);
@@ -47,7 +54,10 @@ function App() {
     return (
         <main>
             <GameGrid grids={grids} onCellClick={handleCellClick} turn={turn} nextGrid={nextGrid} winner={winner} />
-            <button onClick={undo} className={cl(history.current.length === 0 && buttonStyles.hidden)}>&#8630;</button>
+            <div>
+                <button onClick={undo} className={cl(history.current.length === 0 && buttonStyles.hidden)}>&#8630;</button>
+                <button onClick={reset} className={cl(winner === null && buttonStyles.hidden)} >&#8635;</button>
+            </div>
         </main>
     );
 }
