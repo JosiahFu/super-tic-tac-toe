@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useMemo, useRef, useState } from "preact/hooks";
 import { GridIndex, Mark, Grid, Player, checkWinner } from "./Game";
 import GameGrid from "./components/GameGrid";
-import buttonStyles from './style/game/button.module.css';
+import buttonStyles from './style/button.module.css';
 import { classList as cl } from './Util';
 
 function App() {

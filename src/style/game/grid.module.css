@@ -2,12 +2,6 @@
     --border-width: max(2px, 0.5vmin);
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .game {
     width: 90vmin;
     height: 90vmin;
