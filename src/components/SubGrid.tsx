@@ -1,6 +1,9 @@
 import { h } from 'preact';
 import Cell from './Cell';
 import { Grid, Mark, checkWinner } from '../Game';
+import markerStyles from '../style/game/markers.module.css';
+import gridStyles from '../style/game/grid.module.css';
+import { classList as cl } from '../Util';
 
 const SubGrid = ({ grid, onCellClick, allowed }: {
     grid: Grid<Mark>,
@@ -9,15 +12,22 @@ const SubGrid = ({ grid, onCellClick, allowed }: {
 }) => {
     const winner = checkWinner(grid);
 
-    const winnerClass = {
-        Player_1: 'player-1',
-        Player_2: 'player-2',
-        tie: 'tie'
-    }[winner] ?? '';
-
-    return (<div class={`subgrid ${winnerClass} ${allowed ? 'allowed' : ''}`}>
+    return (<div class={cl(
+        gridStyles.grid,
+        gridStyles.subgrid,
+        markerStyles.subgrid,
+        winner === 'Player_1' && markerStyles.player1,
+        winner === 'Player_2' && markerStyles.player2,
+        winner === 'tie' && markerStyles.tie,
+        markerStyles.allowable,
+        allowed && markerStyles.allowed
+    )}>
     {grid.map((mark, i) => (
-        <Cell key={i} mark={mark} onClick={() => onCellClick(i)} allowed={allowed && winner === null} />
+        <Cell
+            key={i}
+            mark={mark}
+            onClick={() => onCellClick(i)}
+            allowed={allowed && winner === null} />
     ))}
     </div>);
 }
