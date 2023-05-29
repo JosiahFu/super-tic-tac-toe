@@ -29,10 +29,7 @@ const GameGrid = ({ grids, onCellClick, turn, nextGrid, winner }: {
         nextGrid === null && winner === null && markerStyles.allowed
     )}>
         {grids.map((subgrid, i) => (
-            <div key={i} class={cl(
-                gridStyles.cell,
-                gridStyles.supercell
-            )}>
+            <div key={i} class={gridStyles.cell}>
                 <SubGrid
                     grid={subgrid}
                     onCellClick={(subindex) => onCellClick(i, subindex)}

@@ -14,7 +14,6 @@ const SubGrid = ({ grid, onCellClick, allowed }: {
 
     return (<div class={cl(
         gridStyles.grid,
-        gridStyles.subgrid,
         markerStyles.subgrid,
         winner === 'Player_1' && markerStyles.player1Win,
         winner === 'Player_2' && markerStyles.player2Win,

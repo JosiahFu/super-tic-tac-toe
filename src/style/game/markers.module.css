@@ -1,4 +1,4 @@
-/* VARIABLES AND POSITIONING */
+/* VARIABLES */
 
 :root {
     --player1-color: #ff0000;
@@ -14,31 +14,40 @@
     }
 }
 
-.subgrid,
-.mark {
-    /*Needed to position pseudo-children*/
-    position: relative;
-}
-
 .subgrid {
     --marker-border-width: max(8px, 2vmin);
 }
 
-.mark {
+.cell {
     --marker-border-width: max(3px, 0.5vmin);
 }
 
-.mark.allowed {
+/* POSITIONING/MISCELLANEOUS */
+
+.subgrid,
+.cell {
+    position: relative;
+}
+
+.subgrid {
+    padding: 5%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10%;
+}
+
+.cell.allowed {
     cursor: pointer;
 }
 
-/* DRAWING */
+/* MARKS */
 
 .player1 {
     position: absolute;
     height: 100%;
     width: 100%;
-    opacity: 0;
+    left: 0;
+    top: 0;
 }
 
 .player1::before,
@@ -72,7 +81,7 @@
     top: 50%;
 }
 
-/* ANIMATION CONTROL */
+/* HOVER ANIMATIONS */
 
 .player1, .player2 {
     opacity: 0;
@@ -80,17 +89,20 @@
     pointer-events: none;
 }
 
-.player1Turn .mark.allowed:hover .player1,
-.player2Turn .mark.allowed:hover .player2 {
+.player1Turn .cell.allowed:hover .player1,
+.player2Turn .cell.allowed:hover .player2 {
     opacity: 0.4;
     transition: opacity 0.15s;
 }
 
+/* Override when filled */
 .player1Win > .player1,
 .player2Win > .player2 {
     opacity: 1;
     transition: opacity 0s;
 }
+
+/* FILL ANIMATIONS */
 
 .player1Win > .player1::before,
 .player1Win > .player1::after,
@@ -110,19 +122,15 @@
     animation: wipe-right-delay 0.4s linear;
 }
 
-/* SUBGRID ADJUSTMENTS */
-
-/* .subgrid > .player1
-.subgrid > .player2 {
-    z-index: 1;
-} */
+/* Adjust subgrid animation */
 
 .subgrid > .player1::before,
 .subgrid > .player1::after,
 .subgrid > .player2 {
     animation-delay: 0.4s;
-    animation-fill-mode: both;
 }
+
+/* ALLOWED HIGHLIGHT */
 
 .allowable {
     transition: background-color 0.4s;
@@ -144,13 +152,13 @@
 
 /* WIN DIMMING */
 
-.mark {
+.cell {
     transition: opacity 0.4s;
 }
 
-.player1Win .mark,
-.player2Win .mark,
-.tie .mark {
+.player1Win .cell,
+.player2Win .cell,
+.tie .cell {
     opacity: 0.4;
     transition: opacity 0.4s 0.4s;
 }
@@ -158,51 +166,21 @@
 /* ANIMATION KEYFRAMES */
 
 @keyframes wipe-radial {
-    0% {
-        clip-path: polygon(50% 50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%);
-    }
-
-    25% {
-        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 150% 50%, 150% 50%, 150% 50%);
-    }
-
-    50% {
-        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, 50% 150%, 50% 150%);
-    }
-
-    75% {
-        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, -50% 50%);
-    }
-
-    100% {
-        clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, 50% -50%);
-    }
+    0%   { clip-path: polygon(50% 50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%); }
+    25%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 150% 50%, 150% 50%, 150% 50%); }
+    50%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, 50% 150%, 50% 150%); }
+    75%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, -50% 50%); }
+    100% { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, 50% -50%); }
 }
 
 @keyframes wipe-right-fast {
-    0% {
-        clip-path: inset(0 100% 0 0);
-    }
-
-    50% {
-        clip-path: inset(0);
-    }
-
-    100% {
-        clip-path: inset(0);
-    }
+    0% { clip-path: inset(0 100% 0 0); }
+    50% { clip-path: inset(0); }
+    100% { clip-path: inset(0); }
 }
 
 @keyframes wipe-right-delay {
-    0% {
-        clip-path: inset(0 100% 0 0);
-    }
-
-    50% {
-        clip-path: inset(0 100% 0 0);
-    }
-
-    100% {
-        clip-path: inset(0);
-    }
+    0% { clip-path: inset(0 100% 0 0); }
+    50% { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0); }
 }

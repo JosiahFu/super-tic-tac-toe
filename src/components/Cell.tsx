@@ -11,7 +11,7 @@ const Cell = ({ mark, onClick, allowed }: {
 }) => {
     return (<div
         class={cl(
-            markerStyles.mark,
+            markerStyles.cell,
             gridStyles.cell,
             mark === null && allowed && markerStyles.allowed,
             mark === 'Player_1' && markerStyles.player1Win,

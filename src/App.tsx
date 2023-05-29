@@ -44,7 +44,6 @@ function App() {
         if (grids[index][subindex] === null) {
             const newGrids = getGridsWithSetCell(index, subindex, turn);
             setGrids(newGrids);
-            console.log(newGrids);
             setNextGrid(checkWinner(newGrids[subindex]) === null ? subindex : null);
             history.current.push({ grids, turn, nextGrid });
             toggleTurn();
