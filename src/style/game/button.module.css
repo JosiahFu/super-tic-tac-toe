@@ -1,7 +1,7 @@
 button {
     background-color: #0000001f;
     border: none;
-    transition: opacity 0.5s, background-color 0.1s;
+    transition: background-color 0.1s;
     text-align: center;
     font-size: 3em;
     height: 1.5em;
@@ -14,8 +14,17 @@ button:hover {
     background-color: #0000002f
 }
 
+button:active {
+    background-color: #00000037;
+}
+
 .hidden {
     opacity: 0;
+    cursor: initial;
+}
+
+.buttonPanel {
+    display: flex;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -25,5 +34,9 @@ button:hover {
 
     button:hover {
         background-color: #ffffff1f;
+    }
+    
+    button:active {
+        background-color: #ffffff17;
     }
 }

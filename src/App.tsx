@@ -44,7 +44,6 @@ function App() {
         if (grids[index][subindex] === null) {
             const newGrids = getGridsWithSetCell(index, subindex, turn);
             setGrids(newGrids);
-            console.log(newGrids);
             setNextGrid(checkWinner(newGrids[subindex]) === null ? subindex : null);
             history.current.push({ grids, turn, nextGrid });
             toggleTurn();
@@ -54,9 +53,9 @@ function App() {
     return (
         <main>
             <GameGrid grids={grids} onCellClick={handleCellClick} turn={turn} nextGrid={nextGrid} winner={winner} />
-            <div>
-                <button onClick={undo} className={cl(history.current.length === 0 && buttonStyles.hidden)}>&#8630;</button>
-                <button onClick={reset} className={cl(winner === null && buttonStyles.hidden)} >&#8635;</button>
+            <div class={buttonStyles.buttonPanel}>
+                <button onClick={history.current.length > 0 ? undo : undefined} className={cl(history.current.length === 0 && buttonStyles.hidden)}>&#8630;</button>
+                <button onClick={winner !== null ? reset : undefined} className={cl(winner === null && buttonStyles.hidden)} >&#8635;</button>
             </div>
         </main>
     );

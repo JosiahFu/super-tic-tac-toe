@@ -22,17 +22,6 @@ main {
     grid-template-rows: repeat(3, auto);
 }
 
-.subgrid {
-    padding: 5%;
-    height: 100%;
-    box-sizing: border-box;
-    border-radius: 10%;
-}
-
-.supercell {
-    padding: 5%;
-}
-
 @media screen and (min-width: 500px) {
     .game {
         width: 80vmin;
@@ -45,6 +34,7 @@ main {
 .cell {
     border-left: var(--border-width) solid var(--fg-color);
     border-top: var(--border-width) solid var(--fg-color);
+    padding: 5%;
 }
 
 .cell:nth-child(3n+1) {
