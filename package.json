@@ -24,7 +24,8 @@
   "dependencies": {
     "preact": "^10.10.0",
     "preact-render-to-string": "^5.2.1",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.12",

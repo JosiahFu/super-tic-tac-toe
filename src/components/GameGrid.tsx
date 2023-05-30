@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Grid, Mark, GridIndex, Winner, Player } from '../Game';
+import { Grid, Mark, GridIndex, Winner, Player } from '../Data';
 import SubGrid from './SubGrid';
 import markerStyles from '../style/game/markers.module.css';
 import gridStyles from '../style/game/grid.module.css';

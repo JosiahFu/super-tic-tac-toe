@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Mark } from "../Game";
+import { Mark } from "../Data";
 import markerStyles from '../style/game/markers.module.css';
 import gridStyles from '../style/game/grid.module.css';
 import { classList as cl } from "../Util";

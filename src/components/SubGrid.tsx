@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import Cell from './Cell';
-import { Grid, Mark, checkWinner } from '../Game';
+import { Grid, Mark, checkWinner } from '../Data';
 import markerStyles from '../style/game/markers.module.css';
 import gridStyles from '../style/game/grid.module.css';
 import { classList as cl } from '../Util';
