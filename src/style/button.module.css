@@ -8,6 +8,7 @@ button {
     width: 8vmin;
     border-radius: 10%;
     cursor: pointer;
+    color: inherit;
 }
 
 button:hover {
