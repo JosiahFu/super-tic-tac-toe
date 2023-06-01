@@ -1,43 +1,45 @@
-// server.js
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import httpProxy from 'http-proxy';
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
+const proxy = httpProxy.createProxyServer();
 
-app.use(express.static('public'));
+// Object to store multiple states
+let state;
 
-let connections = [];
-let storedData = null;
-
-io.on('connection', (socket) => {
+// Socket.io connection event
+io.on('connection', socket => {
     console.log('A client connected.');
-    connections.push(socket);
-    socket.emit('data', storedData)
-    // socket.emit('response', {'status': 'Connected'});
 
-    socket.on('message', (data) => {
-        console.log('Received message:', data);
-        storedData = data;
+    // Send all the states to the newly connected client
+    if (state !== undefined) {
+        socket.emit('state-update', state);
+    }
 
-        // Process the received message here...
-        connections.forEach(e => {
-            e.emit('response', storedData)
-        });
-
-        // Send a response back to the client
+    // Event listener for state updates from clients
+    socket.on('update-state', data => {
+        state = data;
+        // Broadcast the updated state to all connected clients except the sender
+        socket.broadcast.emit('state-update', state);
     });
 
+    // Socket.io disconnection event
     socket.on('disconnect', () => {
-        connections.splice(connections.indexOf(socket), 1);
         console.log('A client disconnected.');
     });
 });
 
-server.listen(3000, () => {
-      console.log('Server is running on http://localhost:3000');
+// Forward other traffic to port 8080
+app.all('*', (req, res) => {
+    proxy.web(req, res, { target: 'http://localhost:8080' });
+});
+
+// Start the server
+const port = 3000;
+server.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
