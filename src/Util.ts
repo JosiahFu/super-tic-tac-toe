@@ -1,7 +1,6 @@
+import { useState } from "preact/hooks";
+
 // Every time I have a new project I rewrite this implementation because I'm too lazy to find the old one
-
-import { useRef, useState } from "preact/hooks";
-
 /**
  * A utility that makes composing class names easier.
  * 
@@ -21,8 +20,14 @@ function classList(...classNames: (string | false)[]): string {
 }
 
 // Thank you https://blog.logrocket.com/typescript-mapped-types/#why-use-mapped-types-typescript
-const useSubState = <T>(stateHook: ReturnType<typeof useState<T>>): { [Key in keyof T]: ReturnType<typeof useState<T[Key]>> } => {
-    const [state, setState] = stateHook;
+/**
+ * A utility that lets you split an object into multiple substates that can be
+ * recieved and set independently and concurrently
+ * 
+ * @param stateHook The state and setState from a `useState` hook
+ * @returns An object with a state and setState for every property of the initial object
+ */
+const useSubState = <T extends object>([state, setState]: ReturnType<typeof useState<T>>): { [Key in keyof T]: ReturnType<typeof useState<T[Key]>> } => {
 
     const entries = Object.entries(state);
 
