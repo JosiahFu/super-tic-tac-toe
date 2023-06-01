@@ -17,6 +17,7 @@ const useSocketState = <T,>(initialState: T, serverUrl?: string): [T, (newState:
     useEffect(() => {
         // Event listener for state updates from the server
         socket.on('state-update', newState => {
+            console.log(newState);
             setState(newState);
         });
 
@@ -26,10 +27,18 @@ const useSocketState = <T,>(initialState: T, serverUrl?: string): [T, (newState:
         };
     }, [socket]);
 
-    const updateState = (newState: T) => {
+    const updateState = (value: T | ((prevState: T) => T)) => {
+        if (typeof value === 'function') {
+            setState(currentState => {
+                const newState = (value as (prevState: T) => T)(currentState);
+                socket.emit('update-state', newState);
+                return newState;
+            })
+            return;
+        }
         // Emit the state update to the server
-        socket.emit('update-state', newState);
-        setState(newState);
+        socket.emit('update-state', value);
+        setState(value);
     };
 
     return [state, updateState];

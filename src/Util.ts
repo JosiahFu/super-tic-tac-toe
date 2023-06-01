@@ -20,17 +20,24 @@ function classList(...classNames: (string | false)[]): string {
     );
 }
 
-const useSubState = <T>(stateHook: ReturnType<typeof useState<T>>) => {
-
+// Thank you https://blog.logrocket.com/typescript-mapped-types/#why-use-mapped-types-typescript
+const useSubState = <T>(stateHook: ReturnType<typeof useState<T>>): { [Key in keyof T]: ReturnType<typeof useState<T[Key]>> } => {
     const [state, setState] = stateHook;
 
-    const stateRef = useRef(state);
-    stateRef.current = state;
+    const entries = Object.entries(state);
 
-    return Object.fromEntries(Object.entries(stateRef.current).map(([key, value]) => [key, [value, (updatedState: typeof value) => {
-        stateRef.current[key as keyof T] = updatedState;
-        setState(stateRef.current);
-    }]])) as { [Key in keyof T]: ReturnType<typeof useState<T[Key]>> };
+    const convertedEntries = entries.map(([key, value]) => [key, [
+        value,
+        (updatedState: typeof value) => {
+            setState(currentState => {
+                const newState = structuredClone(currentState);
+                newState[key as keyof T] = updatedState;
+                return newState;
+            });
+        }
+    ]]);
+
+    return Object.fromEntries(convertedEntries);
 };
 
 export { classList, useSubState };
