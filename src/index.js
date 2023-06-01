@@ -33,10 +33,16 @@ io.on('connection', socket => {
     });
 });
 
-// Forward other traffic to port 8080
-app.all('*', (req, res) => {
+// Forward other traffic to port 8080 if flag is present
+const shouldForward = process.argv.includes('--forward');
+
+if (shouldForward) {
+  app.all('*', (req, res) => {
     proxy.web(req, res, { target: 'http://localhost:8080' });
-});
+  });
+} else {
+  app.use(express.static('public'));
+}
 
 // Start the server
 const port = 3000;
