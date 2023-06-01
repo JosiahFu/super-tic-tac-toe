@@ -1,5 +1,7 @@
 // Every time I have a new project I rewrite this implementation because I'm too lazy to find the old one
 
+import { useRef, useState } from "preact/hooks";
+
 /**
  * A utility that makes composing class names easier.
  * 
@@ -18,4 +20,17 @@ function classList(...classNames: (string | false)[]): string {
     );
 }
 
-export { classList };
+const useSubState = <T>(stateHook: ReturnType<typeof useState<T>>) => {
+
+    const [state, setState] = stateHook;
+
+    const stateRef = useRef(state);
+    stateRef.current = state;
+
+    return Object.fromEntries(Object.entries(stateRef.current).map(([key, value]) => [key, [value, (updatedState: typeof value) => {
+        stateRef.current[key as keyof T] = updatedState;
+        setState(stateRef.current);
+    }]])) as { [Key in keyof T]: ReturnType<typeof useState<T[Key]>> };
+};
+
+export { classList, useSubState };
