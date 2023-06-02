@@ -9,7 +9,7 @@ const io = new Server(server);
 const proxy = httpProxy.createProxyServer();
 
 // Object to store multiple states
-let state;
+let state: unknown;
 
 // Socket.io connection event
 io.on('connection', socket => {
@@ -37,15 +37,15 @@ io.on('connection', socket => {
 const shouldForward = process.argv.includes('--forward');
 
 if (shouldForward) {
-  app.all('*', (req, res) => {
-    proxy.web(req, res, { target: 'http://localhost:8080' });
-  });
+    app.all('*', (req, res) => {
+        proxy.web(req, res, { target: 'http://localhost:8080' });
+    });
 } else {
-  app.use(express.static('public'));
+    app.use(express.static('public'));
 }
 
 // Start the server
-const port = 3000;
+const port = process.argv.includes('-p') ? Number(process.argv[process.argv.indexOf('-p') + 1]) : 3000;
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
