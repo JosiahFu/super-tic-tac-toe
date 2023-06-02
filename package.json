@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact build --no-inline-css",
-    "build-gh": "npm run build && dot-json ./build/manifest.json start_url \"/$GITHUB_PAGES/\"",
     "serve": "sirv build --cors --single",
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact watch",
     "lint": "eslint src",
@@ -24,7 +23,6 @@
   "dependencies": {
     "preact": "^10.10.0",
     "preact-render-to-string": "^5.2.1",
-    "preact-router": "^3.2.1",
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
