@@ -2,7 +2,7 @@ import { useSubState } from "../Util";
 import { GameState, Grid, Mark, Player } from "../Data";
 import useSocketState from "../useSocketState";
 import Game from "./Game";
-import { h } from "preact";
+import { h, Fragment } from "preact";
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import { Socket, io } from 'socket.io-client';
 
@@ -13,7 +13,7 @@ function NetworkGame() {
         nextGrid: null
     });
 
-    const [player, setPlayer] = useState<Player>()
+    const [player, setPlayer] = useState<Player | null>(null)
 
     interface ServerToClientEvents {
         'state-update': (newState: GameState) => void;
@@ -41,6 +41,7 @@ function NetworkGame() {
         // Clean up socket connection on unmount
         return () => {
             socket.disconnect();
+            setPlayer(null);
         };
     }, [socket]);
 
@@ -64,12 +65,15 @@ function NetworkGame() {
         nextGrid: [nextGrid, setNextGrid]
     } = useSubState([gameState, updateState]);
 
-    return <Game {...{
-        grids, setGrids,
-        turn, setTurn,
-        nextGrid, setNextGrid,
-        player
-    }} />
+    return (<>
+        {player === null && <p>You are disconnected</p>}
+        <Game {...{
+            grids, setGrids,
+            turn, setTurn,
+            nextGrid, setNextGrid,
+            player
+        }} />
+    </>);
 }
 
 export default NetworkGame;
