@@ -2,6 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import httpProxy from 'http-proxy';
+import { GameState, Grid, Mark, Winner, checkWinner } from './game';
 
 const app = express();
 const server = createServer(app);
@@ -9,7 +10,13 @@ const io = new Server(server);
 const proxy = httpProxy.createProxyServer();
 
 // Object to store multiple states
-let state: unknown;
+const defaultState: GameState = {
+    grids: Array(9).fill(Array(9).fill(null) as Grid<Mark>) as Grid<Grid<Mark>>,
+    turn: 'Player_1',
+    nextGrid: null
+};
+
+let state = defaultState;
 
 // Socket.io connection event
 io.on('connection', socket => {
@@ -25,6 +32,10 @@ io.on('connection', socket => {
         state = data;
         // Broadcast the updated state to all connected clients except the sender
         socket.broadcast.emit('state-update', state);
+        if (checkWinner(state.grids.map(checkWinner) as Grid<Winner>)) {
+            io.disconnectSockets();
+            state = defaultState;
+        }
     });
 
     // Socket.io disconnection event
