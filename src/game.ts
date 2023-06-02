@@ -30,5 +30,11 @@ function checkWinner(grid: Grid<Mark> | Grid<Winner>): Winner {
     return 'tie';
 }
 
+const defaultState: GameState = {
+    grids: Array(9).fill(Array(9).fill(null) as Grid<Mark>) as Grid<Grid<Mark>>,
+    turn: 'Player_1',
+    nextGrid: null
+};
+
 export type { Player, Mark, Grid, GridIndex, Winner, GameState };
-export { checkWinner };
+export { checkWinner, defaultState };
