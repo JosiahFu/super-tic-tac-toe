@@ -126,21 +126,21 @@
 
 /* ALLOWED HIGHLIGHT */
 
-.allowable {
+.nextable {
     transition: background-color 0.4s;
 }
 
-.player1Turn .allowable.allowed,
-.player1Turn.allowed {
+.player1Turn .nextable.next,
+.player1Turn.next {
     background-color: var(--player1-highlight-color);
 }
 
-.player2Turn .allowable.allowed,
-.player2Turn.allowed {
+.player2Turn .nextable.next,
+.player2Turn.next {
     background-color: var(--player2-highlight-color);
 }
 
-.allowed .allowable.allowed {
+.next .nextable.next {
     background-color: transparent;
 }
 

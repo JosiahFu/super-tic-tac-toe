@@ -1,24 +1,74 @@
 import { useSubState } from "../Util";
-import { GameState, Grid, Mark } from "../Data";
+import { GameState, Grid, Mark, Player } from "../Data";
 import useSocketState from "../useSocketState";
 import Game from "./Game";
 import { h } from "preact";
+import { useEffect, useMemo, useState } from 'preact/hooks';
+import { Socket, io } from 'socket.io-client';
 
 function NetworkGame() {
-    const gameState = useSubState(useSocketState<GameState>({
+    const [gameState, setGameState] = useState<GameState>({
         grids: Array(9).fill(Array(9).fill(null) as Grid<Mark>) as Grid<Grid<Mark>>,
         turn: 'Player_1',
         nextGrid: null
-    }))
+    });
 
-    const [grids, setGrids] = gameState.grids;
-    const [turn, setTurn] = gameState.turn
-    const [nextGrid, setNextGrid] = gameState.nextGrid;
+    const [player, setPlayer] = useState<Player>()
+
+    interface ServerToClientEvents {
+        'state-update': (newState: GameState) => void;
+        'set-player': (player: Player) => void;
+        'game-full': () => void;
+    }
+
+    interface ClientToServerEvents {
+        'update-state': (newState: GameState) => void;
+    }
+
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => io(), []);
+
+    useEffect(() => {
+        // Event listener for state updates from the server
+        socket.on('state-update', newState => {
+            console.log(newState);
+            setGameState(newState);
+        });
+
+        socket.on('set-player', player => {
+            setPlayer(player);
+        })
+
+        // Clean up socket connection on unmount
+        return () => {
+            socket.disconnect();
+        };
+    }, [socket]);
+
+    const updateState = (value: GameState | ((prevState: GameState) => GameState)) => {
+        if (typeof value === 'function') {
+            setGameState(currentState => {
+                const newState = (value as (prevState: GameState) => GameState)(currentState);
+                socket.emit('update-state', newState);
+                return newState;
+            })
+            return;
+        }
+        // Emit the state update to the server
+        socket.emit('update-state', value);
+        setGameState(value);
+    };
+
+    const {
+        grids: [grids, setGrids],
+        turn: [turn, setTurn],
+        nextGrid: [nextGrid, setNextGrid]
+    } = useSubState([gameState, updateState]);
 
     return <Game {...{
         grids, setGrids,
         turn, setTurn,
-        nextGrid, setNextGrid
+        nextGrid, setNextGrid,
+        player
     }} />
 }
 

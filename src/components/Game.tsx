@@ -6,14 +6,15 @@ import markerStyles from '../style/game/markers.module.css';
 import gridStyles from '../style/game/grid.module.css';
 import SubGrid from "./SubGrid";
 
-function Game({ grids, setGrids, turn, setTurn, nextGrid, setNextGrid, onCellClick }: {
+function Game({ grids, setGrids, turn, setTurn, nextGrid, setNextGrid, onCellClick, player }: {
     grids: Grid<Grid<Mark>>,
     setGrids: (grids: Grid<Grid<Mark>>) => void,
     turn: Player,
     setTurn: (turn: Player) => void,
     nextGrid: GridIndex,
     setNextGrid: (nextGrid: GridIndex) => void,
-    onCellClick?: () => void;
+    onCellClick?: () => void,
+    player?: Player
 }) {
     const winner = useMemo(() => (
         checkWinner(grids.map(checkWinner) as Grid<Mark>)
@@ -45,15 +46,17 @@ function Game({ grids, setGrids, turn, setTurn, nextGrid, setNextGrid, onCellCli
         gridStyles.game,
         turn === 'Player_1' && markerStyles.player1Turn,
         turn === 'Player_2' && markerStyles.player2Turn,
-        markerStyles.allowable,
-        nextGrid === null && winner === null && markerStyles.allowed
+        markerStyles.nextable,
+        nextGrid === null && winner === null && markerStyles.next,
+        (turn === player || player === undefined) && nextGrid === null && winner === null && markerStyles.allowed
     )}>
         {grids.map((subgrid, i: GridIndex) => (
             <div key={i} class={gridStyles.cell}>
                 <SubGrid
                     grid={subgrid}
                     onCellClick={(subindex: GridIndex) => handleCellClick(i, subindex)}
-                    allowed={(nextGrid === i || nextGrid === null) && winner === null}
+                    allowed={(turn === player || player === undefined) && (nextGrid === i || nextGrid === null) && winner === null}
+                    next={(nextGrid === i || nextGrid === null) && winner === null}
                 />
             </div>
         ))}

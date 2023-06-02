@@ -5,10 +5,11 @@ import markerStyles from '../style/game/markers.module.css';
 import gridStyles from '../style/game/grid.module.css';
 import { classList as cl } from '../Util';
 
-const SubGrid = ({ grid, onCellClick, allowed }: {
+const SubGrid = ({ grid, onCellClick, allowed, next }: {
     grid: Grid<Mark>,
     onCellClick: (index: number) => void,
-    allowed: boolean
+    allowed: boolean,
+    next: boolean
 }) => {
     const winner = checkWinner(grid);
 
@@ -18,7 +19,8 @@ const SubGrid = ({ grid, onCellClick, allowed }: {
         winner === 'Player_1' && markerStyles.player1Win,
         winner === 'Player_2' && markerStyles.player2Win,
         winner === 'tie' && markerStyles.tie,
-        markerStyles.allowable,
+        markerStyles.nextable,
+        next && markerStyles.next,
         allowed && markerStyles.allowed
     )}>
         {grid.map((mark, i) => (
