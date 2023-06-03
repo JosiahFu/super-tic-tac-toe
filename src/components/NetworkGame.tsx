@@ -1,47 +1,62 @@
 import { useSubState } from "../Util";
 import { GameState, Grid, Mark, Player } from "../Data";
-import useSocketState from "../useSocketState";
 import Game from "./Game";
 import { h, Fragment } from "preact";
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import { Socket, io } from 'socket.io-client';
 
-function NetworkGame() {
+function NetworkGame({ gameId, onExit }: {
+    gameId?: string
+    onExit: () => void;
+}) {
     const [gameState, setGameState] = useState<GameState>({
         grids: Array(9).fill(Array(9).fill(null) as Grid<Mark>) as Grid<Grid<Mark>>,
         turn: 'Player_1',
         nextGrid: null
     });
 
-    const [player, setPlayer] = useState<Player | null>(null)
+    const [id, setId] = useState(gameId);
+    const [connected, setConnected] = useState(false);
+    const [player, setPlayer] = useState<Player>()
 
     interface ServerToClientEvents {
         'state-update': (newState: GameState) => void;
-        'set-player': (player: Player) => void;
-        'game-full': () => void;
     }
 
     interface ClientToServerEvents {
         'update-state': (newState: GameState) => void;
+        'start-game': (response: (id: string, player: Player) => void) => void,
+        'join-game': (id: string, response: (player: Player) => void) => void;
     }
 
     const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => io(), []);
 
     useEffect(() => {
+        if (id === undefined) {
+            socket.emit('start-game', (id, newPlayer) => {
+                setPlayer(newPlayer);
+                setConnected(true);
+                setId(id);
+            });
+        } else {
+            socket.emit('join-game', id, newPlayer => {
+                setPlayer(newPlayer)
+                setConnected(true);
+            });
+        }
+
         // Event listener for state updates from the server
         socket.on('state-update', newState => {
-            console.log(newState);
             setGameState(newState);
         });
 
-        socket.on('set-player', player => {
-            setPlayer(player);
-        })
+        socket.on('disconnect', () => {
+            setConnected(false);
+        });
 
         // Clean up socket connection on unmount
         return () => {
             socket.disconnect();
-            setPlayer(null);
         };
     }, [socket]);
 
@@ -66,7 +81,7 @@ function NetworkGame() {
     } = useSubState([gameState, updateState]);
 
     return (<>
-        {player === null && <p>You are disconnected</p>}
+        {connected === false && <p>You are disconnected</p>}
         <Game {...{
             grids, setGrids,
             turn, setTurn,

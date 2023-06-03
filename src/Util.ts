@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { StateUpdater, useState } from "preact/hooks";
 
 // Every time I have a new project I rewrite this implementation because I'm too lazy to find the old one
 /**
@@ -27,7 +27,7 @@ function classList(...classNames: (string | false)[]): string {
  * @param stateHook The state and setState from a `useState` hook
  * @returns An object with a state and setState for every property of the initial object
  */
-const useSubState = <T extends object>([state, setState]: ReturnType<typeof useState<T>>): { [Key in keyof T]: ReturnType<typeof useState<T[Key]>> } => {
+const useSubState = <T extends object>([state, setState]: [T, StateUpdater<T>]): { [Key in keyof T]: [T[Key], StateUpdater<T[Key]>] } => {
 
     const entries = Object.entries(state);
 

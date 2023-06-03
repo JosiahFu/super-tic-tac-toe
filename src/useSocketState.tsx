@@ -10,7 +10,7 @@ const useSocketState = <T,>(initialState: T, serverUrl?: string): [T, (newState:
         'update-state': (newState: T) => void
     }
 
-    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => io(serverUrl), [serverUrl]);
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => serverUrl ? io(serverUrl) : io(), [serverUrl]);
 
     const [state, setState] = useState(initialState);
 

@@ -11,8 +11,8 @@ function Game({ grids, setGrids, turn, setTurn, nextGrid, setNextGrid, onCellCli
     setGrids: (grids: Grid<Grid<Mark>>) => void,
     turn: Player,
     setTurn: (turn: Player) => void,
-    nextGrid: GridIndex,
-    setNextGrid: (nextGrid: GridIndex) => void,
+    nextGrid: GridIndex | null,
+    setNextGrid: (nextGrid: GridIndex | null) => void,
     onCellClick?: () => void,
     player?: Player
 }) {

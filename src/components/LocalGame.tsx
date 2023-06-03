@@ -5,7 +5,9 @@ import Game from './Game';
 import buttonStyles from '../style/button.module.css';
 import { classList as cl } from '../Util';
 
-function LocalGame() {
+function LocalGame({ onExit }: {
+    onExit: () => void;
+}) {
     const [grids, setGrids] = useState(Array(9).fill(Array(9).fill(null) as Grid<Mark>) as Grid<Grid<Mark>>);
     const [turn, setTurn] = useState<Player>('Player_1');
     const [nextGrid, setNextGrid] = useState<null | GridIndex>(null);
@@ -13,7 +15,8 @@ function LocalGame() {
     const history = useRef<GameState[]>([]);
 
     const undo = () => {
-        const historyItem = history.current.pop();
+        if (history.current.length === 0) return;
+        const historyItem = history.current.pop()!;
         setGrids(historyItem.grids);
         setTurn(historyItem.turn);
         setNextGrid(historyItem.nextGrid);
