@@ -7,11 +7,11 @@ import buttonStyles from './style/button.module.css';
 type GameType = 'Network' | 'Local';
 
 function App() {
-    const params = useMemo(() => new URLSearchParams(document.location.search), [])
+    const params = useMemo(() => typeof document !== 'undefined' ? new URLSearchParams(document.location.search) : undefined, [])
 
-    const [gameType, setGameType] = useState<GameType | null>(params.has('join') ? 'Network' : null);
+    const [gameType, setGameType] = useState<GameType | null>(params?.has('join') ? 'Network' : null);
     const [promptShown, setPromptShown] = useState(false);
-    const [gameId, setGameId] = useState<string | undefined>(params.get('join') ?? undefined);
+    const [gameId, setGameId] = useState<string | undefined>(params?.get('join') ?? undefined);
     const [errorMessage, setErrorMessage] = useState<string>();
 
     const handleExit = () => {
