@@ -1,3 +1,0 @@
-[submodule "client"]
-	path = client
-	url = https://github.com/JosiahFu/super-tic-tac-toe
