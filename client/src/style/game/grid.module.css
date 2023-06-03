@@ -1,0 +1,42 @@
+:root {
+    --border-width: max(2px, 0.5vmin);
+}
+
+.game {
+    width: 90vmin;
+    height: 90vmin;
+    padding: 2%;
+    box-sizing: border-box;
+    border-radius: 3%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+}
+
+@media screen and (min-width: 500px) {
+    .game {
+        width: 80vmin;
+        height: 80vmin;
+    }
+}
+
+/* BORDERS */
+
+.cell {
+    border-left: var(--border-width) solid var(--fg-color);
+    border-top: var(--border-width) solid var(--fg-color);
+    padding: 5%;
+}
+
+.cell:nth-child(3n+1) {
+    border-left: none;
+}
+
+.cell:nth-child(-n+3) {
+    border-top: none;
+}
+
+/* ACTIVE HIGHLIGHTING */

@@ -1,0 +1,180 @@
+/* VARIABLES */
+
+:root {
+    --player1-color: #ff0000;
+    --player2-color: #007fff;
+    --player1-highlight-color: #ff7f7f3f;
+    --player2-highlight-color: #7fbfff3f;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        --player1-highlight-color: #ff7f7f27;
+        --player2-highlight-color: #7fbfff27;
+    }
+}
+
+.subgrid {
+    --marker-border-width: max(8px, 2vmin);
+}
+
+.cell {
+    --marker-border-width: max(3px, 0.5vmin);
+}
+
+/* POSITIONING/MISCELLANEOUS */
+
+.subgrid,
+.cell {
+    position: relative;
+}
+
+.subgrid {
+    padding: 5%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10%;
+}
+
+.cell.allowed {
+    cursor: pointer;
+}
+
+/* MARKS */
+
+.player1 {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.player1::before,
+.player1::after {
+    height: var(--marker-border-width);
+    width: 100%;
+    background-color: var(--player1-color);
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.player1::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.player1::after {
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.player2 {
+    width: 80%;
+    height: 80%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: var(--marker-border-width) solid var(--player2-color);
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+/* HOVER ANIMATIONS */
+
+.player1, .player2 {
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.player1Turn .cell.allowed:hover .player1,
+.player2Turn .cell.allowed:hover .player2 {
+    opacity: 0.4;
+    transition: opacity 0.15s;
+}
+
+/* Override when filled */
+.player1Win > .player1,
+.player2Win > .player2 {
+    opacity: 1;
+    transition: opacity 0s;
+}
+
+/* FILL ANIMATIONS */
+
+.player2Win > .player2 {
+    animation: wipe-radial 0.4s linear both;
+}
+
+.player1Win > .player1::before {
+    animation: wipe-right-fast 0.4s linear both;
+}
+
+.player1Win > .player1::after {
+    animation: wipe-right-delay 0.4s linear both;
+}
+
+/* Adjust subgrid animation */
+
+.subgrid > .player1::before,
+.subgrid > .player1::after,
+.subgrid > .player2 {
+    animation-delay: 0.4s;
+}
+
+/* ALLOWED HIGHLIGHT */
+
+.nextable {
+    transition: background-color 0.4s;
+}
+
+.player1Turn .nextable.next,
+.player1Turn.next {
+    background-color: var(--player1-highlight-color);
+}
+
+.player2Turn .nextable.next,
+.player2Turn.next {
+    background-color: var(--player2-highlight-color);
+}
+
+.next .nextable.next {
+    background-color: transparent;
+}
+
+/* WIN DIMMING */
+
+.cell {
+    transition: opacity 0.4s;
+}
+
+.player1Win .cell,
+.player2Win .cell,
+.tie .cell {
+    opacity: 0.4;
+    transition: opacity 0.4s 0.4s;
+}
+
+/* ANIMATION KEYFRAMES */
+
+@keyframes wipe-radial {
+    0%   { clip-path: polygon(50% 50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%); }
+    25%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 150% 50%, 150% 50%, 150% 50%); }
+    50%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, 50% 150%, 50% 150%); }
+    75%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, -50% 50%); }
+    100% { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, 50% -50%); }
+}
+
+@keyframes wipe-right-fast {
+    0% { clip-path: inset(0 100% 0 0); }
+    50% { clip-path: inset(0); }
+    100% { clip-path: inset(0); }
+}
+
+@keyframes wipe-right-delay {
+    0% { clip-path: inset(0 100% 0 0); }
+    50% { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0); }
+}
