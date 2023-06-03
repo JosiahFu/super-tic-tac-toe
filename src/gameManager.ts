@@ -29,10 +29,14 @@ interface SocketData {
 }
 
 const generateId = () => {
-    let id = '';
-    for (let i = 0; i < 4; i++) {
-        id += Math.floor(10 * Math.random());
-    }
+    let id;
+    do {
+        id = '';
+        for (let i = 0; i < 4; i++) {
+            id += Math.floor(10 * Math.random());
+        }
+    } while (games.has(id));
+
     return id;
 };
 
