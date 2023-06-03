@@ -11,14 +11,16 @@ type Game = {
 
 const games = new Map<string, Game>();
 
+type Response<T> = ({ ok: true } & T) | { ok: false, message: string };
+
 interface ServerToClientEvents {
     'state-update': (newState: GameState) => void;
 }
 
 interface ClientToServerEvents {
     'update-state': (newState: GameState) => void;
-    'start-game': (response: (id: string, player: Player) => void) => void,
-    'join-game': (id: string, response: (player: Player) => void) => void;
+    'start-game': (response: (response: Response<{ id: string, player: Player }>) => void) => void,
+    'join-game': (id: string, response: (response: Response<{ player: Player }>) => void) => void;
 }
 
 interface SocketData {
@@ -47,7 +49,7 @@ const initializeSocket = (server: HTTPServer) => {
             games.set(id, game);
             console.log(`Starting game ${id}`);
             socket.data = { player: 'Player_1', game };
-            response(id, 'Player_1');
+            response({ ok: true, id: id, player: 'Player_1' });
             console.log(`Player 1 Joined game ${id}`);
         });
 
@@ -55,13 +57,13 @@ const initializeSocket = (server: HTTPServer) => {
             const game = games.get(id);
 
             if (game === undefined) {
-                // Game does not exist
+                response({ ok: false, message: 'Game does not exist' });
                 socket.disconnect();
                 return;
             }
 
             if (game.Player_1 !== null && game.Player_2 !== null) {
-                // Game is full
+                response({ ok: false, message: 'Game is full' });
                 socket.disconnect();
                 return;
             }
@@ -74,14 +76,14 @@ const initializeSocket = (server: HTTPServer) => {
             if (game.Player_1 === null) {
                 game.Player_1 = socket;
                 socket.data.player = 'Player_1';
-                response('Player_1');
+                response({ ok: true, player: 'Player_1' });
                 console.log(`Player 1 joined game ${id}`);
                 return;
             }
 
             game.Player_2 = socket;
             socket.data.player = 'Player_2';
-            response('Player_2');
+            response({ ok: true, player: 'Player_2' });
             console.log(`Player 2 joined game ${id}`);
 
         });
