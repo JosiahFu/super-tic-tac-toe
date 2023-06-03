@@ -44,8 +44,9 @@ function LocalGame({ onExit }: {
             nextGrid, setNextGrid
         }} onCellClick={handleCellClick} />
         <div class={buttonStyles.buttonPanel}>
-            <button onClick={history.current.length > 0 ? undo : undefined} className={cl(history.current.length === 0 && buttonStyles.hidden)}>&#8630;</button>
-            <button onClick={winner !== null ? reset : undefined} className={cl(buttonStyles.delayed, winner === null && buttonStyles.hidden)} >&#8635;</button>
+            <button onClick={onExit} className={cl(buttonStyles.iconButton)} >&#8592;</button>
+            <button onClick={history.current.length > 0 ? undo : undefined} className={cl(buttonStyles.iconButton, history.current.length === 0 && buttonStyles.hidden)}>&#8630;</button>
+            <button onClick={winner !== null ? reset : undefined} className={cl(buttonStyles.iconButton, buttonStyles.delayed, winner === null && buttonStyles.hidden)} >&#8635;</button>
         </div>
     </>);
 }

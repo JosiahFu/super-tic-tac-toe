@@ -3,12 +3,11 @@ button {
     border: none;
     transition: opacity 0.4s, background-color 0.1s;
     text-align: center;
-    font-size: 6vmin;
-    height: 8vmin;
-    width: 8vmin;
-    border-radius: 10%;
     cursor: pointer;
     color: inherit;
+    font-size: 2em;
+    padding: 0.25em;
+    border-radius: 0.5em;
 }
 
 button:hover {
@@ -17,6 +16,14 @@ button:hover {
 
 button:active {
     background-color: #00000037;
+}
+
+.iconButton {
+    font-size: 6vmin;
+    height: 8vmin;
+    width: 8vmin;
+    border-radius: 1vmin;
+    padding: 0;
 }
 
 .hidden {
@@ -39,6 +46,27 @@ button:active {
     padding: 2vmin;
 }
 
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.prompt {
+    /* position: absolute; */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+input {
+    background-color: #00000037;
+    border: none;
+    font-size: 2em;
+    padding: 0.25em;
+    border-radius: 0.5em;
+}
+
 @media screen and (prefers-color-scheme: dark) {
     button {
         background-color: #ffffff2f;
@@ -49,6 +77,10 @@ button:active {
     }
     
     button:active {
+        background-color: #ffffff17;
+    }
+    
+    input {
         background-color: #ffffff17;
     }
 }
