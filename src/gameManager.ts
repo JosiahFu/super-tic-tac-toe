@@ -58,10 +58,17 @@ const initializeSocket = (server: HTTPServer) => {
         });
 
         socket.on('join-game', (id, response) => {
+
+            if (id.length !== 4 || !id.split('').every(value => value in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])) {
+                response({ ok: false, message: 'Code is not valid, please double check it' });
+                socket.disconnect();
+                return;
+            }
+
             const game = games.get(id);
 
             if (game === undefined) {
-                response({ ok: false, message: 'Game does not exist' });
+                response({ ok: false, message: 'Game does not exist, please double check it' });
                 socket.disconnect();
                 return;
             }

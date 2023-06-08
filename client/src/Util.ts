@@ -1,4 +1,4 @@
-import { StateUpdater, useState } from "preact/hooks";
+import { StateUpdater } from "preact/hooks";
 
 // Every time I have a new project I rewrite this implementation because I'm too lazy to find the old one
 /**

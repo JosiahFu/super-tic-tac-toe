@@ -16,11 +16,16 @@ function App() {
 
     const handleExit = () => {
         setGameType(null);
+        setGameId(undefined);
+        if (params?.has('join')) {
+            // Remove search params
+            window.history.replaceState({}, '', `${window.location.origin}${window.location.pathname}`);
+        }
     }
 
     const handleError = (message: string) => {
         setErrorMessage(message);
-        setTimeout(() => setErrorMessage(undefined), 1000); // Maybe fix later?
+        setTimeout(() => setErrorMessage(undefined), 5000); // Maybe fix later?
     }
 
     return (
@@ -47,7 +52,7 @@ function App() {
 function CodePrompt({ onSubmit }: { onSubmit: (code: string) => void }) {
     const [code, setCode] = useState('');
     return (<div class={buttonStyles.prompt}>
-        <input value={code} onChange={event => setCode((event.target! as HTMLInputElement).value)} placeholder="Game Code" />
+        <input value={code} onChange={event => setCode((event.target as HTMLInputElement).value)} placeholder="Game Code" />
         <button onClick={() => onSubmit(code)}>Connect</button>
     </div>);
 }
