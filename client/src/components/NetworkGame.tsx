@@ -1,11 +1,10 @@
-import { useSubState } from "../Util";
-import { GameState, Grid, Mark, Player } from "../Data";
+import { useSubState, classList as cl } from "../Util";
+import { GameState, Grid, Mark, Player, Winner } from "../Data";
 import Game from "./Game";
 import { h, Fragment } from "preact";
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import { Socket, io } from 'socket.io-client';
 import buttonStyles from '../style/button.module.css';
-import { classList as cl } from '../Util';
 
 function NetworkGame({ gameId, onExit, onError }: {
     gameId?: string,
@@ -17,27 +16,35 @@ function NetworkGame({ gameId, onExit, onError }: {
         turn: 'Player_1',
         nextGrid: null
     });
+    const [winner, setWinner] = useState<Winner>();
 
     const [id, setId] = useState(gameId);
     const [connected, setConnected] = useState(false);
     const [player, setPlayer] = useState<Player>()
-    const [tooltipShown, setTooltipShown] = useState(false);
+    // const [tooltipShown, setTooltipShown] = useState(false);
 
     type Response<T> = ({ ok: true } & T) | { ok: false, message: string };
 
     interface ServerToClientEvents {
         'state-update': (newState: GameState) => void;
+        'game-end': (winner: Winner, forfeit: boolean) => void;
     }
 
     interface ClientToServerEvents {
         'update-state': (newState: GameState) => void;
-        'start-game': (response: (response: Response<{ id: string, player: Player }>) => void) => void,
+        'start-game': (response: (response: Response<{ id: string, player: Player }>) => void) => void;
         'join-game': (id: string, response: (response: Response<{ player: Player }>) => void) => void;
+        'quit-game': () => void;
     }
+
 
     const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => io(), []);
 
     useEffect(() => {
+        socket.on('connect', () => {
+            console.log(socket.recovered);
+        });
+
         if (id === undefined) {
             socket.emit('start-game', response => {
                 if (!response.ok) {
@@ -68,6 +75,10 @@ function NetworkGame({ gameId, onExit, onError }: {
             setGameState(newState);
         });
 
+        socket.on('game-end', (winner) => {
+            setWinner(winner);
+        })
+
         socket.on('disconnect', () => {
             setConnected(false);
         });
@@ -76,7 +87,7 @@ function NetworkGame({ gameId, onExit, onError }: {
         return () => {
             socket.disconnect();
         };
-    }, [socket]);
+    }, [socket, onError, onExit]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const updateState = (value: GameState | ((prevState: GameState) => GameState)) => {
         if (typeof value === 'function') {
@@ -92,6 +103,11 @@ function NetworkGame({ gameId, onExit, onError }: {
         setGameState(value);
     };
 
+    const handleExit = () => {
+        socket.emit('quit-game');
+        onExit();
+    }
+
     const {
         grids: [grids, setGrids],
         turn: [turn, setTurn],
@@ -101,7 +117,10 @@ function NetworkGame({ gameId, onExit, onError }: {
     const link = useMemo(() => `${window.location.href.split('?')[0]}?join=${id}`, [id]);
 
     return (<>
-        {connected === false && <p>You are disconnected</p>}
+        {connected === false && winner === undefined && <p>You are disconnected</p>}
+        {winner === player && <p>You won</p>}
+        {winner !== undefined && winner !== player && <p>You lost</p>}
+        {winner === 'tie' && <p>You tied</p>}
         <Game {...{
             grids, setGrids,
             turn, setTurn,
@@ -109,7 +128,7 @@ function NetworkGame({ gameId, onExit, onError }: {
             player
         }} />
         <div class={buttonStyles.buttonPanel}>
-            <button onClick={onExit} className={cl(buttonStyles.iconButton)}>&#8592;</button>
+            <button onClick={handleExit} className={cl(buttonStyles.iconButton)}>&#8592;</button>
             <span>
                 Game code: {id}
                 <br />
