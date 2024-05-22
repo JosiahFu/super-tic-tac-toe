@@ -1,9 +1,14 @@
 <script lang="ts">
-    import Game from './Game.svelte';
+    import { flip } from 'svelte/animate';
+import Game from './Game.svelte';
+    import OMark from './lib/OMark.svelte';
+    import XMark from './lib/XMark.svelte';
 
     let host = false;
     let id = '';
     let started = false;
+    
+    let showTest = false;
 
     $: canStart = host || id !== '';
 
@@ -40,5 +45,11 @@
         </p>
 
         <p><button disabled={!canStart} on:click={start}>Start</button></p>
+    {/if}
+    
+    <input type="checkbox" bind:checked={showTest} />
+    {#if showTest}
+        <XMark --border-width=10px />
+        <OMark --border-width=10px />
     {/if}
 </main>
