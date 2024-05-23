@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { flip } from 'svelte/animate';
-import Game from './Game.svelte';
+    import Game from './Game.svelte';
     import OMark from './lib/OMark.svelte';
     import XMark from './lib/XMark.svelte';
 

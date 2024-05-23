@@ -2,12 +2,8 @@ import Peer, { type DataConnection } from 'peerjs'
 import { onDestroy } from 'svelte'
 import { writable, type Writable } from 'svelte/store'
 
-function prefixId(baseId: string) {
-    return `super-ttt-${baseId}`
-}
-
 function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: string} {
-    const host = new Peer(prefixId(identifier))
+    const host = new Peer(identifier)
     const store = writable(initialState)
     
     let lastSource: DataConnection | undefined = undefined
@@ -44,7 +40,7 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {
     const client = new Peer()
 
     client.on('open', () => {
-        const connection = client.connect(prefixId(hostIdentifier))
+        const connection = client.connect(hostIdentifier)
         
         connection.on('open', () => {
             const unsubscribe = store.subscribe(state => {

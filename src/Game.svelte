@@ -4,8 +4,12 @@
 
     export let host: boolean
     export let id: string
+
+    function prefixId(baseId: string) {
+        return `super-ttt-${baseId}`
+    }
     
-    const gameState = host ? peerHost(defaultState, id) : peerClient(defaultState, id);
+    const gameState = host ? peerHost(defaultState, prefixId(id)) : peerClient(defaultState, prefixId(id));
 
 </script>
 
@@ -19,7 +23,7 @@
     {/each}
 </div>
 
-<p>Host Id: {gameState.id}</p>
+<p>Host Id: {id}</p>
 
 <style>
     .nine {
