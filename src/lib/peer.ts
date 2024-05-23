@@ -8,13 +8,11 @@ function prefixId(baseId: string) {
 
 function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: string} {
     const host = new Peer(prefixId(identifier))
-    console.log(host);
     const store = writable(initialState)
     
     let lastSource: DataConnection | undefined = undefined
     
     host.on('connection', connection => {
-        console.log('New connection')
         connection.on('open', () => {
             const unsubscribe = store.subscribe(state => {
                 if (lastSource === connection) return
@@ -23,11 +21,11 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: st
             })
             
             connection.on('close', unsubscribe)
-            
-            connection.on('data', data => {
-                lastSource = connection
-                store.set(data as T)
-            })
+        })
+
+        connection.on('data', data => {
+            lastSource = connection
+            store.set(data as T)
         })
     })
     
@@ -36,7 +34,7 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: st
         store.set(state)
     }
     
-    onDestroy(() => {console.log('close'); host.destroy()})
+    onDestroy(() => host.destroy())
     
     return {...store, set, id: identifier}
 }
@@ -44,25 +42,26 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: st
 function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {id: string} {
     const store = writable(defaultState)
     const client = new Peer()
-    const connection = client.connect(prefixId(hostIdentifier))
-    console.log(connection);
-    
-    connection.on('open', () => {
-        const unsubscribe = store.subscribe(state => {
-            connection.send(state)
+
+    client.on('open', () => {
+        const connection = client.connect(prefixId(hostIdentifier))
+        
+        connection.on('open', () => {
+            const unsubscribe = store.subscribe(state => {
+                connection.send(state)
+            })
+            
+            connection.on('close', unsubscribe)
         })
         
-        connection.on('close', unsubscribe)
+        connection.on('data', data => {
+            store.set(data as T)
+        })
     })
-    
-    connection.on('data', data => {
-        console.log(data);
-        store.set(data as T)
-    });
-    
-    onDestroy(() => {console.log('close'); client.destroy()})
+        
+    onDestroy(() => client.destroy())
 
-    return {...store, id: hostIdentifier};
+    return {...store, id: hostIdentifier}
 
 }
 
