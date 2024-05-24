@@ -7,7 +7,6 @@
     export let mark: Mark | undefined
     
     export let allowed: boolean;
-    export let fade: boolean;
 
     $: available = allowed && mark === undefined
     
@@ -20,7 +19,7 @@
     }
 </script>
 
-<button class="cell" class:available class:fade on:click={click}>
+<button class="cell" class:available on:click={click}>
     {#if mark === 'X'}
         <XMark />
     {:else if mark === 'O'}
@@ -29,17 +28,17 @@
 </button>
 
 <style>
+    button {
+        background-color: transparent;
+        border: none;
+    }
+
     .cell {
         position: relative;
-        --border-width: 10px;
-        transition: opacity 0.4s 0.4s;
+        --border-width: 5px;
     }
     
     .available {
         cursor: pointer;
-    }
-    
-    .fade {
-        opacity: 0.5;
     }
 </style>

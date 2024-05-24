@@ -1,5 +1,6 @@
 <script lang="ts">
     import { defaultState, winnerOf, type Mark, type SubGrid as SubGridData } from './lib/data';
+    import GridCell from './lib/GridCell.svelte';
     import SubGrid from './lib/SubGrid.svelte';
 
     export let gameState = defaultState()
@@ -23,11 +24,14 @@
 
 <div class="nine">
     {#each gameState.grid as _, index}
-        <SubGrid
-            bind:grid={gameState.grid[index]}
-            next={index === gameState.nextGrid}
-            allowed={(gameState.nextGrid === undefined || index === gameState.nextGrid) && (player === undefined || player === gameState.turn)}
-            on:mark={({detail: {setMark, markIndex}}) => onMark(setMark, markIndex)} />
+        <GridCell {index}>
+            <SubGrid
+                bind:grid={gameState.grid[index]}
+                next={index === gameState.nextGrid}
+                turn={gameState.turn}
+                allowed={(gameState.nextGrid === undefined || index === gameState.nextGrid) && (player === undefined || player === gameState.turn)}
+                on:mark={({detail: {setMark, markIndex}}) => onMark(setMark, markIndex)} />
+        </GridCell>
     {/each}
 </div>
 
@@ -40,5 +44,6 @@
         aspect-ratio: 1;
         padding: 1em;
         box-sizing: border-box;
+        --border-width: 5px;
     }
 </style>

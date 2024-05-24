@@ -34,7 +34,7 @@ export function winnerOf(grid: SubGrid): Mark | undefined {
         if (equals(grid[3*i], grid[3*i + 1], grid[3*i + 2])) return grid[3*i]
     }
     if (equals(grid[0], grid[4], grid[8])) return grid[0]
-    if (equals(grid[2], grid[4], grid[6])) return grid[0]
+    if (equals(grid[2], grid[4], grid[6])) return grid[2]
         
     return undefined;
 }
