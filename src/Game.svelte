@@ -1,9 +1,9 @@
 <script lang="ts">
     import { derived, readonly, writable } from 'svelte/store';
     import { defaultState, winnerOf, type Mark, type SubGrid as SubGridData } from './lib/data';
-    import GridCell from './lib/GridCell.svelte';
     import SubGrid from './lib/SubGrid.svelte';
     import { setContext } from 'svelte';
+    import CellGrid from './lib/CellGrid.svelte';
 
     export let gameState = defaultState()
     
@@ -27,24 +27,20 @@
     $: winner = winnerOf(subWins)
 </script>
 
-<div class="nine">
-    {#each gameState.grid as _, index}
-        <GridCell {index}>
-            <SubGrid
-                bind:grid={gameState.grid[index]}
-                next={index === gameState.nextGrid}
-                turn={gameState.turn}
-                allowed={(gameState.nextGrid === null || index === gameState.nextGrid) && (player === null || player === gameState.turn)}
-                on:mark={({detail: markIndex}) => onMark(markIndex)} />
-        </GridCell>
-    {/each}
+<div class="container">
+    <CellGrid let:index>
+        <SubGrid
+            bind:grid={gameState.grid[index]}
+            next={index === gameState.nextGrid}
+            turn={gameState.turn}
+            allowed={(gameState.nextGrid === null || index === gameState.nextGrid) && (player === null || player === gameState.turn)}
+            on:mark={({detail: markIndex}) => onMark(markIndex)} />
+    </CellGrid>
 </div>
 
 <style>
-    .nine {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr);
+    .container {
+        position: relative;
         height: 100%;
         aspect-ratio: 1;
         padding: 1em;

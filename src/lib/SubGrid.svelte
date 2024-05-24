@@ -4,7 +4,7 @@
     import { winnerOf, type MarkEventData, type SubGrid, type Mark as MarkData } from './data';
     import OMark from './OMark.svelte';
     import XMark from './XMark.svelte';
-    import GridCell from './GridCell.svelte';
+    import CellGrid from './CellGrid.svelte';
 
     export let grid: SubGrid;
     
@@ -18,22 +18,17 @@
     $: winner = winnerOf(grid)
 </script>
 
-<div class='nine' class:next class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
-    {#each grid as _, index}
-        <GridCell {index} fade={winner !== null}>
-            <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', index)} />
-        </GridCell>
-    {/each}
+<div class='container' class:next class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
+    <CellGrid let:index fade={winner !== null}>
+        <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', index)} />
+    </CellGrid>
 
     <XMark delay active={winner === 'X'} --border-width=30px />
     <OMark delay active={winner === 'O'} --border-width=30px />
 </div>
 
 <style>
-    .nine {
-        display: inline-grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr);
+    .container {
         position: relative;
         padding: 5%;
         margin: 5%;
