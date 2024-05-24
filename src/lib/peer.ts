@@ -25,7 +25,7 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: st
         })
     })
     
-    function set(state: T) {
+    const set = (state: T) => {
         lastSource = undefined
         store.set(state)
     }
@@ -38,12 +38,15 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: st
 function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {id: string} {
     const store = writable(defaultState)
     const client = new Peer()
+    
+    let lastChangeSelf = false;
 
     client.on('open', () => {
         const connection = client.connect(hostIdentifier)
         
         connection.on('open', () => {
             const unsubscribe = store.subscribe(state => {
+                if (lastChangeSelf) return;
                 connection.send(state)
             })
             
@@ -51,13 +54,20 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {
         })
         
         connection.on('data', data => {
+            lastChangeSelf = true;
             store.set(data as T)
         })
     })
         
+    const set = (state: T) => {
+        lastChangeSelf = true
+        store.set(state)
+    }
+    
     onDestroy(() => client.destroy())
 
-    return {...store, id: hostIdentifier}
+
+    return {...store, set, id: hostIdentifier}
 
 }
 

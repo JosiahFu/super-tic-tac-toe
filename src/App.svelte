@@ -1,20 +1,11 @@
 <script lang="ts">
     import Game from './Game.svelte';
-    import OMark from './lib/OMark.svelte';
-    import XMark from './lib/XMark.svelte';
-
-    let host = false;
-    let id = '';
-    let started = false;
+    import IdDialog from './IdDialog.svelte';
+    import NetworkGame from './NetworkGame.svelte';
     
-    let showTest = false;
-
-    $: canStart = host || id !== '';
-
-    function start() {
-        if (!canStart) return;
-        started = true;
-    }
+    let gameType: 'single' | 'host' | 'client' | undefined = undefined;
+    let showDialog = true;
+    let id = '';
 
     function genBaseId() {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -23,32 +14,31 @@
 </script>
 
 <main>
-    {#if started}
-        <Game {host} id={id || genBaseId()} />
+    {#if gameType === 'single'}
+        <Game />
+    {:else if gameType === 'host'}
+        {#if showDialog}
+            <IdDialog bind:value={id} optional on:submit={() => showDialog = false} />
+        {:else}
+            <NetworkGame host id={id || genBaseId()} />
+        {/if}
+    {:else if gameType === 'client'}
+        {#if showDialog}
+            <IdDialog bind:value={id} on:submit={() => showDialog = false}/>
+        {:else}
+            <NetworkGame {id} />
+        {/if}
     {:else}
-        <p>
-            <label>
-                <input type="checkbox" bind:checked={host} />
-                Host
-            </label>
-        </p>
-
-        <p>
-            <label>
-                Id
-                {#if host}
-                    (leave blank to autogen)
-                {/if}
-                <input type="text" bind:value={id} />
-            </label>
-        </p>
-
-        <p><button disabled={!canStart} on:click={start}>Start</button></p>
-    {/if}
-    
-    <input type="checkbox" bind:checked={showTest} />
-    {#if showTest}
-        <XMark --border-width=10px />
-        <OMark --border-width=10px />
+        <button on:click={() => gameType = 'single'}>Start Same Device</button>
+        <button on:click={() => gameType = 'host'}>Start Network</button>
+        <button on:click={() => gameType = 'client'}>Join Network</button>
     {/if}
 </main>
+
+<style>
+    main {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+    }
+</style>

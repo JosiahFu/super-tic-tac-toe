@@ -24,9 +24,10 @@ function percent(decimal: number) {
     return `${Math.round(decimal * 100)}%`
 }
 
-export function radialWipeCw(_node: HTMLElement, {duration = 400} = {}): TransitionConfig {
+export function radialWipeCw(_node: HTMLElement, {duration = 400, delay = 0} = {}): TransitionConfig {
     return {
         duration,
+        delay,
         css(t) {
             const step = Math.floor(4*t)
             return `clip-path: polygon(50% 50%, ${diamondPathCw(0)}, ${diamondPathCw(Math.min(1, step))}, ${diamondPathCw(Math.min(2, step))}, ${diamondPathCw(Math.min(3, step))}, ${diamondPathCw(4*t)}, 50% 50%);`
@@ -35,9 +36,10 @@ export function radialWipeCw(_node: HTMLElement, {duration = 400} = {}): Transit
 }
 
 
-export function radialWipeCcw(_node: HTMLElement, {duration = 400} = {}): TransitionConfig {
+export function radialWipeCcw(_node: HTMLElement, {duration = 400, delay = 0} = {}): TransitionConfig {
     return {
         duration,
+        delay,
         css(t) {
             const step = Math.floor(4*t)
             return `clip-path: polygon(50% 50%, ${diamondPathCcw(0)}, ${diamondPathCcw(Math.min(1, step))}, ${diamondPathCcw(Math.min(2, step))}, ${diamondPathCcw(Math.min(3, step))}, ${diamondPathCcw(4*t)}, 50% 50%);`

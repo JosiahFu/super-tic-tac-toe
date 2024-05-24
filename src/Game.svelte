@@ -1,34 +1,44 @@
 <script lang="ts">
-    import { defaultState } from './lib/data';
-    import { peerClient, peerHost } from './lib/peer';
+    import { defaultState, winnerOf, type Mark, type SubGrid as SubGridData } from './lib/data';
+    import SubGrid from './lib/SubGrid.svelte';
 
-    export let host: boolean
-    export let id: string
+    export let gameState = defaultState()
+    
+    export let player: Mark | undefined = undefined;
+    
+    function onMark(setMark: (mark: Mark) => void, markIndex: number) {
+        setMark(gameState.turn)
+        gameState.turn = gameState.turn === 'O' ? 'X' : 'O'
 
-    function prefixId(baseId: string) {
-        return `super-ttt-${baseId}`
+        if (winnerOf(gameState.grid[markIndex]) !== undefined) {
+            gameState.nextGrid = undefined
+        } else {
+            gameState.nextGrid = markIndex
+        }
     }
     
-    const gameState = host ? peerHost(defaultState, prefixId(id)) : peerClient(defaultState, prefixId(id));
-
+    $: subWins = gameState.grid.map(winnerOf) as SubGridData
+    $: winner = winnerOf(subWins)
 </script>
 
 <div class="nine">
-    {#each $gameState as subgrid}
-        <div class="nine">
-            {#each subgrid as _, index}
-                <input type="text" bind:value={subgrid[index]} />
-            {/each}
-        </div>
+    {#each gameState.grid as _, index}
+        <SubGrid
+            bind:grid={gameState.grid[index]}
+            next={index === gameState.nextGrid}
+            allowed={(gameState.nextGrid === undefined || index === gameState.nextGrid) && (player === undefined || player === gameState.turn)}
+            on:mark={({detail: {setMark, markIndex}}) => onMark(setMark, markIndex)} />
     {/each}
 </div>
-
-<p>Host Id: {id}</p>
 
 <style>
     .nine {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
+        height: 100%;
+        aspect-ratio: 1;
+        padding: 1em;
+        box-sizing: border-box;
     }
 </style>

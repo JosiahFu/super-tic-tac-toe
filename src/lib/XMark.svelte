@@ -1,5 +1,7 @@
 <script lang="ts">
     import type { TransitionConfig } from 'svelte/transition';
+    
+    export let delay = 0
 
     function wipeDown(_node: HTMLElement, {duration = 200, delay = 0} = {}): TransitionConfig {
         return {
@@ -19,15 +21,14 @@
 </script>
 
 <div class="container">
-    <div class="xmark a" in:wipeDown={{delay: 200}} out:wipeUp={{delay: 200}} />
-    <div class="xmark b" in:wipeDown out:wipeUp />
+    <div class="xmark a" in:wipeDown={{delay: 200 + delay}} out:wipeUp={{delay: 200 + delay}} />
+    <div class="xmark b" in:wipeDown={{delay}} out:wipeUp={{delay}} />
 </div>
 
 <style>
     .container {
-        height: 100px;
-        width: 100px;
-        position: relative;
+        position: absolute;
+        inset: 0;
     }
 
     .xmark {
