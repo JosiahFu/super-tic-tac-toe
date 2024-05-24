@@ -2,7 +2,7 @@ export type Mark = 'X' | 'O'
 
 export type Nine<T> = [T, T, T, T, T, T, T, T, T]
 
-export type SubGrid = Nine<Mark | undefined>
+export type SubGrid = Nine<Mark | null>
 
 export type SuperGrid = Nine<SubGrid>
 
@@ -12,31 +12,31 @@ function nineOf<T>(create: () => T): Nine<T> {
 
 export function defaultState(): GameData {
     return {
-        grid: nineOf(() => nineOf(() => undefined)),
+        grid: nineOf(() => nineOf(() => null)),
         turn: 'X',
-        nextGrid: undefined,
+        nextGrid: null,
     }
 }
 
 export interface GameData {
    grid: SuperGrid,
    turn: Mark,
-   nextGrid: number | undefined 
+   nextGrid: number | null 
 }
 
-function equals(...values: unknown[]) {
-    return values.every((e, i) => i === 0 || e === values[i-1]);
+function compare(...values: unknown[]) {
+    return values[0] !== null && values.every((e, i) => i === 0 || e === values[i-1]);
 }
 
-export function winnerOf(grid: SubGrid): Mark | undefined {
+export function winnerOf(grid: SubGrid): Mark | null {
     for (let i = 0; i < 3; i++) {
-        if (equals(grid[i], grid[i + 3], grid[i + 6])) return grid[i]
-        if (equals(grid[3*i], grid[3*i + 1], grid[3*i + 2])) return grid[3*i]
+        if (compare(grid[i], grid[i + 3], grid[i + 6])) return grid[i]
+        if (compare(grid[3*i], grid[3*i + 1], grid[3*i + 2])) return grid[3*i]
     }
-    if (equals(grid[0], grid[4], grid[8])) return grid[0]
-    if (equals(grid[2], grid[4], grid[6])) return grid[2]
+    if (compare(grid[0], grid[4], grid[8])) return grid[0]
+    if (compare(grid[2], grid[4], grid[6])) return grid[2]
         
-    return undefined;
+    return null;
 }
 
 export interface MarkEventData {

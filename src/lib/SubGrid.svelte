@@ -20,8 +20,8 @@
 
 <div class='nine' class:next class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
     {#each grid as _, index}
-        <GridCell {index} fade={winner !== undefined}>
-            <Mark bind:mark={grid[index]} {allowed} on:mark={event => dispatch('mark', {setMark: event.detail, markIndex: index})} />
+        <GridCell {index} fade={winner !== null}>
+            <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', {setMark: event.detail, markIndex: index})} />
         </GridCell>
     {/each}
 

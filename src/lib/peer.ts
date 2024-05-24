@@ -39,14 +39,14 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {
     const store = writable(defaultState)
     const client = new Peer()
     
-    let lastChangeSelf = false;
+    let lastChangeRemote = false;
 
     client.on('open', () => {
         const connection = client.connect(hostIdentifier)
         
         connection.on('open', () => {
             const unsubscribe = store.subscribe(state => {
-                if (lastChangeSelf) return;
+                if (lastChangeRemote) return;
                 connection.send(state)
             })
             
@@ -54,13 +54,13 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {
         })
         
         connection.on('data', data => {
-            lastChangeSelf = true;
+            lastChangeRemote = true;
             store.set(data as T)
         })
     })
         
     const set = (state: T) => {
-        lastChangeSelf = true
+        lastChangeRemote = false
         store.set(state)
     }
     

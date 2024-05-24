@@ -5,14 +5,14 @@
 
     export let gameState = defaultState()
     
-    export let player: Mark | undefined = undefined;
+    export let player: Mark | null = null;
     
     function onMark(setMark: (mark: Mark) => void, markIndex: number) {
         setMark(gameState.turn)
         gameState.turn = gameState.turn === 'O' ? 'X' : 'O'
 
-        if (winnerOf(gameState.grid[markIndex]) !== undefined) {
-            gameState.nextGrid = undefined
+        if (winnerOf(gameState.grid[markIndex]) !== null) {
+            gameState.nextGrid = null
         } else {
             gameState.nextGrid = markIndex
         }
@@ -29,7 +29,7 @@
                 bind:grid={gameState.grid[index]}
                 next={index === gameState.nextGrid}
                 turn={gameState.turn}
-                allowed={(gameState.nextGrid === undefined || index === gameState.nextGrid) && (player === undefined || player === gameState.turn)}
+                allowed={(gameState.nextGrid === null || index === gameState.nextGrid) && (player === null || player === gameState.turn)}
                 on:mark={({detail: {setMark, markIndex}}) => onMark(setMark, markIndex)} />
         </GridCell>
     {/each}

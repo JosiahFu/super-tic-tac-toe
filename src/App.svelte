@@ -18,15 +18,17 @@
         <Game />
     {:else if gameType === 'host'}
         {#if showDialog}
-            <IdDialog bind:value={id} optional on:submit={() => showDialog = false} />
+            <IdDialog bind:value={id} optional on:submit={() => {showDialog = false; if (!id) id = genBaseId()}} />
         {:else}
-            <NetworkGame host id={id || genBaseId()} />
+            <NetworkGame host id={id} />
+            <p>Game ID: {id}</p>
         {/if}
     {:else if gameType === 'client'}
         {#if showDialog}
             <IdDialog bind:value={id} on:submit={() => showDialog = false}/>
         {:else}
             <NetworkGame {id} />
+            <p>Game ID: {id}</p>
         {/if}
     {:else}
         <button on:click={() => gameType = 'single'}>Start Same Device</button>
@@ -40,5 +42,6 @@
         display: grid;
         place-items: center;
         height: 100vh;
+        grid-template-rows: 1fr auto;
     }
 </style>

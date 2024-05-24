@@ -4,11 +4,11 @@
     import OMark from './OMark.svelte';
     import XMark from './XMark.svelte';
 
-    export let mark: Mark | undefined
+    export let mark: Mark | null
     
     export let allowed: boolean;
 
-    $: available = allowed && mark === undefined
+    $: available = allowed && mark === null
     
     const dispatch = createEventDispatcher<{mark: (mark: Mark) => void}>()
     

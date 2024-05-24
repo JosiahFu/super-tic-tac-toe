@@ -15,5 +15,3 @@
 </script>
 
 <Game bind:gameState={$gameState} player={host ? 'X' : 'O'} />
-
-<p>Host Id: {id}</p>
