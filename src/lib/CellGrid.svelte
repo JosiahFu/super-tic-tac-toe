@@ -17,7 +17,7 @@
         display: grid;
         grid-template-columns: 1fr auto 1fr auto 1fr;
         grid-template-rows: 1fr auto 1fr auto 1fr;
-        transition: 0.2s;
+        transition: 0.4s 0.4s;
         padding: inherit;
     }
     
