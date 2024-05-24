@@ -1,14 +1,19 @@
 <script lang="ts">
+    import { derived, readonly, writable } from 'svelte/store';
     import { defaultState, winnerOf, type Mark, type SubGrid as SubGridData } from './lib/data';
     import GridCell from './lib/GridCell.svelte';
     import SubGrid from './lib/SubGrid.svelte';
+    import { setContext } from 'svelte';
 
     export let gameState = defaultState()
     
+    export let turn = writable(gameState.turn)
+    $: $turn = gameState.turn
+    setContext('turn', readonly(turn))
+    
     export let player: Mark | null = null;
     
-    function onMark(setMark: (mark: Mark) => void, markIndex: number) {
-        setMark(gameState.turn)
+    function onMark(markIndex: number) {
         gameState.turn = gameState.turn === 'O' ? 'X' : 'O'
 
         if (winnerOf(gameState.grid[markIndex]) !== null) {
@@ -30,7 +35,7 @@
                 next={index === gameState.nextGrid}
                 turn={gameState.turn}
                 allowed={(gameState.nextGrid === null || index === gameState.nextGrid) && (player === null || player === gameState.turn)}
-                on:mark={({detail: {setMark, markIndex}}) => onMark(setMark, markIndex)} />
+                on:mark={({detail: markIndex}) => onMark(markIndex)} />
         </GridCell>
     {/each}
 </div>

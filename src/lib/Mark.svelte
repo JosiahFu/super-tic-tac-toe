@@ -1,30 +1,31 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, getContext } from 'svelte';
     import type { Mark } from './data';
     import OMark from './OMark.svelte';
     import XMark from './XMark.svelte';
+    import type { Readable } from 'svelte/store';
 
     export let mark: Mark | null
     
     export let allowed: boolean;
+    
+    const turn = getContext<Readable<Mark>>('turn')
 
     $: available = allowed && mark === null
     
-    const dispatch = createEventDispatcher<{mark: (mark: Mark) => void}>()
+    const dispatch = createEventDispatcher<{mark: undefined}>()
     
     function click() {
         if (available) {
-            dispatch('mark', newMark => mark = newMark)
+            mark = $turn
+            dispatch('mark')
         }
     }
 </script>
 
 <button class="cell" class:available on:click={click}>
-    {#if mark === 'X'}
-        <XMark />
-    {:else if mark === 'O'}
-        <OMark />
-    {/if}
+    <XMark active={mark === 'X'} hoverable={available && $turn === 'X'} />
+    <OMark active={mark === 'O'} hoverable={available && $turn === 'O'} />
 </button>
 
 <style>

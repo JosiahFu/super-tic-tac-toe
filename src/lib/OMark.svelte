@@ -1,12 +1,10 @@
 <script lang="ts">
-    import { radialWipeCw, radialWipeCcw } from './radialWipe';
-    
-    export let delay = 0;
-    
-    $: params = {delay}
+    export let delay = false;
+    export let hoverable = false;
+    export let active: boolean;
 </script>
 
-<div class="circle" in:radialWipeCw={params} out:radialWipeCcw={params} />
+<div class="circle" class:active class:hoverable class:delay />
 
 <style>
     .circle {
@@ -15,5 +13,33 @@
         border: var(--border-width) blue solid;
         border-radius: 50%;
         box-sizing: border-box;
+        opacity: 0;
+        transition: 0.2s;
+        display: none;
+    }
+    
+    .circle.active, .circle.hoverable {
+        display: block
+    }
+    
+    .circle.hoverable:hover {
+        opacity: 0.5;
+    }
+    
+    .circle.active {
+        opacity: 1;
+        animation: wipe-radial 0.4s linear both;
+    }
+    
+    .circle.delay {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes wipe-radial {
+        0%   { clip-path: polygon(50% 50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%, 50% -50%); }
+        25%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 150% 50%, 150% 50%, 150% 50%); }
+        50%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, 50% 150%, 50% 150%); }
+        75%  { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, -50% 50%); }
+        100% { clip-path: polygon(50% 50%, 50% -50%, 150% 50%, 50% 150%, -50% 50%, 50% -50%); }
     }
 </style>

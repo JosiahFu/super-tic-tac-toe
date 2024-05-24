@@ -13,7 +13,7 @@
     export let next: boolean;
     export let allowed: boolean;
     
-    const dispatch = createEventDispatcher<{mark: MarkEventData}>()
+    const dispatch = createEventDispatcher<{mark: number}>()
     
     $: winner = winnerOf(grid)
 </script>
@@ -21,15 +21,12 @@
 <div class='nine' class:next class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
     {#each grid as _, index}
         <GridCell {index} fade={winner !== null}>
-            <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', {setMark: event.detail, markIndex: index})} />
+            <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', index)} />
         </GridCell>
     {/each}
 
-    {#if winner === 'X'}
-        <XMark delay={400} --border-width=30px />
-    {:else if winner === 'O'}
-        <OMark delay={400} --border-width=30px />
-    {/if}
+    <XMark delay active={winner === 'X'} --border-width=30px />
+    <OMark delay active={winner === 'O'} --border-width=30px />
 </div>
 
 <style>

@@ -1,34 +1,34 @@
 <script lang="ts">
-    import type { TransitionConfig } from 'svelte/transition';
-    
-    export let delay = 0
+    export let delay = false;
+    export let hoverable = false;
+    export let active: boolean;
 
-    function wipeDown(_node: HTMLElement, {duration = 200, delay = 0} = {}): TransitionConfig {
-        return {
-            duration,
-            delay,
-            css: (_, u) => `clip-path: inset(0 0 ${Math.floor(u*100)}% 0);`
-        }
-    }
-
-    function wipeUp(_node: HTMLElement, {duration = 200, delay = 0} = {}): TransitionConfig {
-        return {
-            duration,
-            delay,
-            css: (_, u) => `clip-path: inset(${Math.floor(u*100)}% 0 0 0);`
-        }
-    }
 </script>
 
-<div class="container">
-    <div class="xmark a" in:wipeDown={{delay: 200 + delay}} out:wipeUp={{delay: 200 + delay}} />
-    <div class="xmark b" in:wipeDown={{delay}} out:wipeUp={{delay}} />
+<div class="container" class:active class:hoverable class:delay>
+    <div class="xmark a" />
+    <div class="xmark b" />
 </div>
 
 <style>
     .container {
         position: absolute;
         inset: 0;
+        opacity: 0;
+        transition: 0.2s;
+        display: none;
+    }
+
+    .container.active, .container.hoverable {
+        display: block
+    }
+    
+    .container.hoverable:hover {
+        opacity: 0.5;
+    }
+    
+    .container.active {
+        opacity: 1;
     }
 
     .xmark {
@@ -40,11 +40,32 @@
         background-color: red;
     }
     
+    .active .xmark {
+        animation: wipe-down 0.2s linear both;
+    }
+    
+    .xmark.a {
+        animation-delay: 0.2s;
+    }
+    
+    .delay .xmark {
+        animation-delay: 0.4s;
+    }
+    
+    .delay .xmark.a {
+        animation-delay: 0.5s;
+    }
+    
     .a {
         rotate: -45deg;
     }
 
     .b {
         rotate: 45deg;
+    }
+    
+    @keyframes wipe-down {
+        0% { clip-path: inset(0 0 100% 0) }
+        100% { clip-path: inset(0 0 0 0) }
     }
 </style>

@@ -11,18 +11,19 @@
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         return [...new Array(4).keys()].map(() => letters[Math.floor(letters.length * Math.random())]).join('')
     }
+    
+    function host() {
+        gameType = 'host'
+        id = genBaseId()
+    }
 </script>
 
 <main>
     {#if gameType === 'single'}
         <Game />
     {:else if gameType === 'host'}
-        {#if showDialog}
-            <IdDialog bind:value={id} optional on:submit={() => {showDialog = false; if (!id) id = genBaseId()}} />
-        {:else}
-            <NetworkGame host id={id} />
-            <p>Game ID: {id}</p>
-        {/if}
+        <NetworkGame host {id} />
+        <p>Game ID: {id}</p>
     {:else if gameType === 'client'}
         {#if showDialog}
             <IdDialog bind:value={id} on:submit={() => showDialog = false}/>
@@ -32,7 +33,7 @@
         {/if}
     {:else}
         <button on:click={() => gameType = 'single'}>Start Same Device</button>
-        <button on:click={() => gameType = 'host'}>Start Network</button>
+        <button on:click={host}>Start Network</button>
         <button on:click={() => gameType = 'client'}>Join Network</button>
     {/if}
 </main>
