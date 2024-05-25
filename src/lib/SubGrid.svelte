@@ -18,7 +18,7 @@
     $: winner = winnerOf(grid)
 </script>
 
-<div class='container' class:next class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
+<div class='container' class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
     <CellGrid let:index fade={winner !== null}>
         <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', index)} />
     </CellGrid>
@@ -37,10 +37,10 @@
     }
     
     .next-x {
-        background-color: #ff00003f;
+        background-color: var(--x-color-focus)
     }
     
     .next-o {
-        background-color: #0000ff3f;
+        background-color: var(--o-color-focus)
     }
 </style>

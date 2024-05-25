@@ -37,7 +37,7 @@
         width: var(--border-width);
         left: calc(50% - var(--border-width) / 2);
         top: 0;
-        background-color: red;
+        background-color: var(--x-color);
     }
     
     .active .xmark {

@@ -10,7 +10,7 @@
     .circle {
         position: absolute;
         inset: 10%;
-        border: var(--border-width) blue solid;
+        border: var(--border-width) var(--o-color) solid;
         border-radius: 50%;
         box-sizing: border-box;
         opacity: 0;
