@@ -20,11 +20,13 @@
 
 <div class='container' class:next-x={next && turn === 'X'} class:next-o={next && turn === 'O'}>
     <CellGrid let:index fade={winner !== null}>
-        <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={event => dispatch('mark', index)} />
+        <Mark bind:mark={grid[index]} allowed={allowed && winner === null} on:mark={() => dispatch('mark', index)} />
     </CellGrid>
 
-    <XMark delay active={winner === 'X'} --border-width=30px />
-    <OMark delay active={winner === 'O'} --border-width=30px />
+    <div class="submark-container">
+        <XMark delay active={winner === 'X'} />
+        <OMark delay active={winner === 'O'} />
+    </div>
 </div>
 
 <style>
@@ -33,7 +35,7 @@
         padding: 5%;
         margin: 5%;
         border-radius: 5%;
-        transition: 0.2s;
+        transition: background-color 0.4s;
     }
     
     .next-x {
@@ -42,5 +44,10 @@
     
     .next-o {
         background-color: var(--o-color-focus)
+    }
+    
+    .submark-container {
+        display: contents;
+        --border-width: max(10px, 2vmin);
     }
 </style>

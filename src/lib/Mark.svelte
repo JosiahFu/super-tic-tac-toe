@@ -36,7 +36,6 @@
 
     .cell {
         position: relative;
-        --border-width: 5px;
     }
     
     .available {

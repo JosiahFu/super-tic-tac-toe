@@ -17,12 +17,12 @@
         display: grid;
         grid-template-columns: 1fr auto 1fr auto 1fr;
         grid-template-rows: 1fr auto 1fr auto 1fr;
-        transition: 0.4s 0.4s;
+        transition: opacity 0.4s 0.4s;
         padding: inherit;
     }
     
     .fade {
-        opacity: 0.5;
+        opacity: 0.3;
     }
     
     .vert, .hor {
@@ -30,11 +30,11 @@
     }
     
     .vert {
-        width: 5px;
+        width: var(--border-width);
     }
     
     .hor {
         grid-column: span 5;
-        height: 5px;
+        height: var(--border-width);
     }
 </style>

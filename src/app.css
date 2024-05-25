@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: var(--fg-color);
   background-color: #242424;
 
   font-synthesis: none;
@@ -13,16 +13,29 @@
   -moz-osx-font-smoothing: grayscale;
   
   --fg-color: #fff;
-  --x-color: #ff0000;
-  --o-color: #0000ff;
-  --x-color-focus: #ff00003f;
-  --o-color-focus: #0000ff3f;
+  --x-color: #ff1f1f;
+  --o-color: #007fff;
+  --x-color-focus: #ff7f7f27;
+  --o-color-focus: #7fbfff27;
 }
+
+/**
+ *  --player1-color:red;
+  --player2-color:#007fff;
+  --player1-highlight-color:#ff7f7f3f;
+  --player2-highlight-color:#7fbfff3f
+  
+      --player1-highlight-color:#ff7f7f27;
+    --player2-highlight-color:#7fbfff27
+*/
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
+
+    --x-color-focus: #ff7f7f3f;
+    --o-color-focus: #7fbfff3f;
   }
 }
 

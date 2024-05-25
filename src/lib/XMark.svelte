@@ -15,7 +15,7 @@
         position: absolute;
         inset: 0;
         opacity: 0;
-        transition: 0.2s;
+        transition: 0.3s;
         display: none;
     }
 
@@ -25,6 +25,7 @@
     
     .container.hoverable:hover {
         opacity: 0.5;
+        transition: 0.1s;
     }
     
     .container.active {

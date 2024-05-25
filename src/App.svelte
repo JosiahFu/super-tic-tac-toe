@@ -23,13 +23,13 @@
         <Game />
     {:else if gameType === 'host'}
         <NetworkGame host {id} />
-        <p>Game ID: {id}</p>
+        <!-- <p>Game ID: {id}</p> -->
     {:else if gameType === 'client'}
         {#if showDialog}
             <IdDialog bind:value={id} on:submit={() => showDialog = false}/>
         {:else}
             <NetworkGame {id} />
-            <p>Game ID: {id}</p>
+            <!-- <p>Game ID: {id}</p> -->
         {/if}
     {:else}
         <button on:click={() => gameType = 'single'}>Start Same Device</button>
@@ -41,8 +41,7 @@
 <style>
     main {
         display: grid;
-        place-items: center;
         height: 100vh;
-        grid-template-rows: 1fr auto;
+        place-items: center;
     }
 </style>

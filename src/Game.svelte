@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { derived, readonly, writable } from 'svelte/store';
-    import { defaultState, winnerOf, type Mark, type SubGrid as SubGridData } from './lib/data';
+    import { readonly, writable } from 'svelte/store';
+    import { defaultState, winnerOf, type Mark, type Nine, type Result, type SubGrid as SubGridData } from './lib/data';
     import SubGrid from './lib/SubGrid.svelte';
     import { setContext } from 'svelte';
     import CellGrid from './lib/CellGrid.svelte';
@@ -23,32 +23,38 @@
         }
     }
     
-    $: subWins = gameState.grid.map(winnerOf) as SubGridData
+    $: subWins = gameState.grid.map(winnerOf) as Nine<Result>
     $: winner = winnerOf(subWins)
 </script>
 
-<div class="container" class:next={gameState.nextGrid === null} class:next-x={gameState.turn === 'X'} class:next-o={gameState.turn === 'O'}>
-    <CellGrid let:index >
-        <SubGrid
-            bind:grid={gameState.grid[index]}
-            next={index === gameState.nextGrid}
-            turn={gameState.turn}
-            allowed={(gameState.nextGrid === null || index === gameState.nextGrid) && (player === null || player === gameState.turn)}
-            on:mark={({detail: markIndex}) => onMark(markIndex)} />
-    </CellGrid>
+<div class="game-container">
+    <div class="game" class:next={gameState.nextGrid === null} class:next-x={gameState.turn === 'X'} class:next-o={gameState.turn === 'O'}>
+        <CellGrid let:index >
+            <SubGrid
+                bind:grid={gameState.grid[index]}
+                next={winner === null && index === gameState.nextGrid}
+                turn={gameState.turn}
+                allowed={winner === null && (gameState.nextGrid === null || index === gameState.nextGrid) && (player === null || player === gameState.turn)}
+                on:mark={({detail: markIndex}) => onMark(markIndex)} />
+        </CellGrid>
+    </div>
 </div>
 
 <style>
-    .container {
+    .game-container {
+        height: 100vmin;
+        width: 100vmin;
+        display: grid;
+    }
+
+    .game {
         position: relative;
-        aspect-ratio: 1;
-        height: 100%;
-        padding: 1em;
-        margin: 1em;
+        padding: 3vmin;
+        margin: 3vmin;
         border-radius: 1em;
         box-sizing: border-box;
-        --border-width: 5px;
-        transition: 0.2s;
+        --border-width: max(3px, 0.5vmin);
+        transition: background-color 0.4s;
     }
     
     .next.next-x {
