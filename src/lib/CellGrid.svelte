@@ -26,7 +26,7 @@
     }
     
     .vert, .hor {
-        background-color: white;
+        background-color: var(--fg-color);
     }
     
     .vert {

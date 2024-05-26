@@ -1,20 +1,19 @@
 <script lang="ts">
     export let shown = false;
-    let hovered = false;
+    export let width = '';
+    export let offset = '0.5em';
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="container" on:mouseenter={() => hovered = true} on:mouseleave={() => hovered = false} on:click|stopPropagation={() => {}}>
+<div class="container" on:click|stopPropagation={() => shown = true}>
     <div class="popup-container">
-        {#if shown || hovered}
-            <div class="popup">
-                <slot />
-            </div>
-        {/if}
+        <div class="popup" style:width style:right={offset} class:hover={true} class:shown>
+            <slot />
+        </div>
     </div>
 
-    <button on:click={() => shown = true}>
+    <button>
         <slot name="icon" />
     </button>
 </div>
@@ -30,7 +29,16 @@
     
     .popup {
         position: absolute;
-        right: 0;
         top: 0;
+        background-color: var(--dialog-color);
+        padding: 1em;
+        border-radius: 1.5em;
+        visibility: hidden;
+        transition: step-start 0s 0.1s;
+    }
+    
+    .container:hover .popup.hover, .popup.shown {
+        visibility: visible;
+        transition-delay: 0s;
     }
 </style>

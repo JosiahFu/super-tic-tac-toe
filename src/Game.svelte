@@ -2,7 +2,7 @@
     import { readonly, writable } from 'svelte/store';
     import { defaultState, winnerOf, type Mark, type Nine, type Result, type SubGrid as SubGridData } from './lib/data';
     import SubGrid from './lib/SubGrid.svelte';
-    import { createEventDispatcher, setContext } from 'svelte';
+    import { setContext } from 'svelte';
     import CellGrid from './lib/CellGrid.svelte';
 
     export let gameState = defaultState()
@@ -10,8 +10,6 @@
     export let turn = writable(gameState.turn)
     $: $turn = gameState.turn
     setContext('turn', readonly(turn))
-    
-    const dispatch = createEventDispatcher<{exit: undefined}>()
     
     export let player: Mark | null = null;
     
@@ -45,7 +43,6 @@
 <div class="sidebar">
     <slot name="sidebar" />
     <!--Undo button-->
-    <button on:click={() => dispatch('exit')}>Exit</button>
 </div>
 
 <style>
