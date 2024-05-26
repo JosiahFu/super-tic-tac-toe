@@ -1,4 +1,4 @@
-name: Deploy React to gh-pages
+name: Deploy Vite to Github Pages
 
 on:
   push:
