@@ -5,11 +5,11 @@
     
     export let optional = false;
     
-    const dispatch = createEventDispatcher<{submit: undefined}>();
+    const dispatch = createEventDispatcher<{submit: string}>();
     
     function click() {
         if (optional || value) {
-            dispatch('submit')
+            dispatch('submit', value)
         }
     }
 </script>

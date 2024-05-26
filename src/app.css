@@ -42,3 +42,7 @@
 body {
   margin: 0;
 }
+
+html {
+  overflow: hidden;
+}

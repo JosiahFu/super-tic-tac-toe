@@ -2,7 +2,7 @@
     import { readonly, writable } from 'svelte/store';
     import { defaultState, winnerOf, type Mark, type Nine, type Result, type SubGrid as SubGridData } from './lib/data';
     import SubGrid from './lib/SubGrid.svelte';
-    import { setContext } from 'svelte';
+    import { createEventDispatcher, setContext } from 'svelte';
     import CellGrid from './lib/CellGrid.svelte';
 
     export let gameState = defaultState()
@@ -10,6 +10,8 @@
     export let turn = writable(gameState.turn)
     $: $turn = gameState.turn
     setContext('turn', readonly(turn))
+    
+    const dispatch = createEventDispatcher<{exit: undefined}>()
     
     export let player: Mark | null = null;
     
@@ -28,7 +30,7 @@
 </script>
 
 <div class="game-container">
-    <div class="game" class:next={gameState.nextGrid === null} class:next-x={gameState.turn === 'X'} class:next-o={gameState.turn === 'O'}>
+    <div class="game" class:next={winner === null && gameState.nextGrid === null} class:next-x={gameState.turn === 'X'} class:next-o={gameState.turn === 'O'}>
         <CellGrid let:index >
             <SubGrid
                 bind:grid={gameState.grid[index]}
@@ -38,6 +40,12 @@
                 on:mark={({detail: markIndex}) => onMark(markIndex)} />
         </CellGrid>
     </div>
+</div>
+
+<div class="sidebar">
+    <slot name="sidebar" />
+    <!--Undo button-->
+    <button on:click={() => dispatch('exit')}>Exit</button>
 </div>
 
 <style>
@@ -63,5 +71,11 @@
 
     .next.next-o {
         background-color: var(--o-color-focus);
+    }
+    
+    .sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
     }
 </style>

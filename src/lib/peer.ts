@@ -2,7 +2,12 @@ import Peer, { type DataConnection } from 'peerjs'
 import { onDestroy } from 'svelte'
 import { writable, type Writable } from 'svelte/store'
 
-function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: string} {
+interface HostMetadata {
+    connected: boolean;
+    players: number;
+}
+
+function peerHost<T>(initialState: T, identifier: string): Writable<T> {
     const host = new Peer(identifier)
     const store = writable(initialState)
     
@@ -32,19 +37,25 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> & {id: st
     
     onDestroy(() => host.destroy())
     
-    return {...store, set, id: identifier}
+    return {...store, set}
 }
 
-function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {id: string} {
+interface ClientMetadata {
+    connected: boolean;
+}
+
+function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> {
     const store = writable(defaultState)
     const client = new Peer()
     
-    let lastChangeRemote = false;
+    let lastChangeRemote = true;
 
     client.on('open', () => {
         const connection = client.connect(hostIdentifier)
         
         connection.on('open', () => {
+            lastChangeRemote = true;
+
             const unsubscribe = store.subscribe(state => {
                 if (lastChangeRemote) return;
                 connection.send(state)
@@ -67,7 +78,7 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> & {
     onDestroy(() => client.destroy())
 
 
-    return {...store, set, id: hostIdentifier}
+    return {...store, set}
 
 }
 
