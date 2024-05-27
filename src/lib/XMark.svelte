@@ -54,7 +54,7 @@
     }
     
     .delay .xmark.a {
-        animation-delay: 0.5s;
+        animation-delay: 0.6s;
     }
     
     .a {
