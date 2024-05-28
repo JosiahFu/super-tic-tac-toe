@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher, getContext } from 'svelte';
-    import type { Mark } from './data';
+    import type { Mark } from '../data';
     import OMark from './OMark.svelte';
     import XMark from './XMark.svelte';
     import type { Readable } from 'svelte/store';

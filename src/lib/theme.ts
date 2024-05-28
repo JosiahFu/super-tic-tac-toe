@@ -1,6 +1,6 @@
 import { onDestroy } from 'svelte';
 import { readonly, writable, type Readable, type Writable } from 'svelte/store';
-import { localString } from './localStore';
+import { localString } from './stores/localStore';
 
 export type ThemeSetting = 'light' | 'dark' | 'system';
 

@@ -2,7 +2,7 @@
     import Game from './Game.svelte';
     import { defaultState } from './lib/data';
     import { debouncedDelay } from './lib/debouncedDelay';
-    import { peerClient, peerHost } from './lib/peer';
+    import { peerClient, peerHost } from './lib/stores/peer';
 
     export let host: boolean = false;
     export let id: string

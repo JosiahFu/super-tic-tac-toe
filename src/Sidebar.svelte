@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import ThemeButton from './ThemeButton.svelte';
-    import TooltipButton from './lib/TooltipButton.svelte';
+    import TooltipButton from './lib/ui/TooltipButton.svelte';
     import { ExitIcon } from './lib/icons/icons';
     import type { ThemeSetting } from './lib/theme';
     

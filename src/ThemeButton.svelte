@@ -1,6 +1,6 @@
 <script lang="ts">
-    import DialogButton from "./lib/DialogButton.svelte";
-    import MultiButton from './lib/MultiButton.svelte';
+    import DialogButton from "./lib/ui/DialogButton.svelte";
+    import MultiButton from './lib/ui/MultiButton.svelte';
     import { ContrastIcon, DarkModeIcon, LightModeIcon, MonitorIcon, NoContrastIcon, ThemeIcon } from './lib/icons/icons';
     import type { ThemeSetting } from './lib/theme';
 

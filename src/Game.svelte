@@ -1,9 +1,9 @@
 <script lang="ts">
     import { readonly, writable } from 'svelte/store';
     import { defaultState, winnerOf, type Mark, type Nine, type Result, type SubGrid as SubGridData } from './lib/data';
-    import SubGrid from './lib/SubGrid.svelte';
+    import SubGrid from './lib/ttt/SubGrid.svelte';
     import { setContext } from 'svelte';
-    import CellGrid from './lib/CellGrid.svelte';
+    import CellGrid from './lib/ttt/CellGrid.svelte';
 
     export let gameState = defaultState()
     

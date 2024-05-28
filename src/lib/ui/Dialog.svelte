@@ -1,6 +1,6 @@
 <script lang="ts">
     import { scale } from 'svelte/transition';
-    import { CloseIcon } from './icons/icons';
+    import { CloseIcon } from '../icons/icons';
 
     export let open = false;
     

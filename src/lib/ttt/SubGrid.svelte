@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import Mark from './Mark.svelte';
-    import { winnerOf, type MarkEventData, type SubGrid, type Mark as MarkData } from './data';
+    import { winnerOf, type SubGrid, type Mark as MarkData } from '../data';
     import OMark from './OMark.svelte';
     import XMark from './XMark.svelte';
     import CellGrid from './CellGrid.svelte';

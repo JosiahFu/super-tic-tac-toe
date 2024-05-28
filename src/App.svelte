@@ -6,7 +6,7 @@
     import { theme } from './lib/theme';
     import Sidebar from './Sidebar.svelte';
     import InviteButton from './InviteButton.svelte';
-    import { localBoolean } from './lib/localStore';
+    import { localBoolean } from './lib/stores/localStore';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
     

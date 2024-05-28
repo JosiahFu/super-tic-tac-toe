@@ -1,6 +1,6 @@
 <script lang="ts">
     import QRCode from '@castlenine/svelte-qrcode';
-import DialogButton from './lib/DialogButton.svelte';
+    import DialogButton from './lib/ui/DialogButton.svelte';
     import { debouncedDelay } from './lib/debouncedDelay';
     import { ClipboardCheckIcon, ClipboardIcon, InviteIcon } from './lib/icons/icons';
 
