@@ -11,6 +11,8 @@
     
     let gameType: 'single' | 'host' | 'client' | undefined = joinId ? 'client' : undefined;
     let id = joinId || '';
+    
+    let inviteOpen = false;
 
     const [themeSetting, themeValue] = theme()
 
@@ -26,6 +28,7 @@
     function host() {
         gameType = 'host'
         id = genBaseId()
+        setTimeout(() => inviteOpen = true, 800)
     }
     
     function exit() {
@@ -61,7 +64,7 @@
             {/if}
             <Sidebar bind:theme={$themeSetting} on:exit={exit}>
                 {#if gameType === 'host'}
-                    <InviteButton {id} link={createLink(id)} />
+                    <InviteButton {id} link={createLink(id)} bind:open={inviteOpen} />
                 {/if}
             </Sidebar>
         </section>

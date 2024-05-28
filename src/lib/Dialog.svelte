@@ -34,7 +34,7 @@
 </script>
 
 {#if open}
-    <dialog bind:this={dialog} on:cancel|preventDefault transition:scale>
+    <dialog bind:this={dialog} on:cancel|preventDefault transition:scale={{start: 0.7}}>
         <button on:click={exit}>
             <CloseIcon class="close-icon" />
         </button>
