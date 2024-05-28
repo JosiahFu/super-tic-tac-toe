@@ -7,14 +7,16 @@
     import Sidebar from './Sidebar.svelte';
     import InviteButton from './InviteButton.svelte';
     import { localBoolean } from './lib/stores/localStore';
+    import ConnectedButton from './ConnectedButton.svelte';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
     
     let gameType: 'single' | 'host' | 'client' | undefined = joinId ? 'client' : undefined;
     let id = joinId || '';
     
-    let inviteOpen = false;
+    let inviteDialog: InviteButton | undefined;
     let idDialog: IdDialog | undefined;
+    let connected: boolean = false;
 
     const [themeSetting, themeValue] = theme()
     const highContrast = localBoolean('highContrast', false)
@@ -36,7 +38,7 @@
     function exit() {
         gameType = undefined;
         id = '';
-        inviteOpen = false;
+        connected = false;
     }
     
     $: document.body.classList.toggle('light', $themeValue === 'light')
@@ -59,17 +61,20 @@
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} noExit />
         </section>
     {:else}
-        <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => inviteOpen = true}>
+        <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => inviteDialog?.open()}>
             {#if gameType === 'single'}
                 <Game />
             {:else if gameType === 'host'}
-                <NetworkGame host {id} />
+                <NetworkGame host {id} bind:connected />
             {:else if gameType === 'client'}
-                <NetworkGame {id} />
+                <NetworkGame {id} bind:connected />
             {/if}
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} on:exit={exit}>
                 {#if gameType === 'host'}
-                    <InviteButton {id} link={createLink(id)} bind:open={inviteOpen} />
+                    <InviteButton {id} link={createLink(id)} bind:this={inviteDialog} />
+                {/if}
+                {#if gameType !== 'single'}
+                    <ConnectedButton {connected} host={gameType === 'host'} />
                 {/if}
             </Sidebar>
         </section>

@@ -2,21 +2,31 @@ import Peer, { type DataConnection } from 'peerjs'
 import { onDestroy } from 'svelte'
 import { writable, type Writable } from 'svelte/store'
 
-function peerHost<T>(initialState: T, identifier: string): Writable<T> {
+interface HostStore<T> extends Writable<T> {
+    connected: Writable<number>
+}
+
+function peerHost<T>(initialState: T, identifier: string): HostStore<T> {
     const host = new Peer(identifier)
     const store = writable(initialState)
+    const connected = writable(0)
     
     let lastSource: DataConnection | undefined = undefined
     
     host.on('connection', connection => {
         connection.on('open', () => {
+            connected.update(a => a + 1)
+
             const unsubscribe = store.subscribe(state => {
                 if (lastSource === connection) return
                 // else
                 connection.send(state)
             })
             
-            connection.on('close', unsubscribe)
+            connection.on('close', () => {
+                connected.update(a => a - 1)
+                unsubscribe()
+            })
         })
 
         connection.on('data', data => {
@@ -32,12 +42,17 @@ function peerHost<T>(initialState: T, identifier: string): Writable<T> {
     
     onDestroy(() => host.destroy())
     
-    return {...store, set}
+    return {...store, set, connected }
 }
 
-function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> {
+interface ClientStore<T> extends Writable<T> {
+    connected: Writable<boolean>
+}
+
+function peerClient<T>(defaultState: T, hostIdentifier: string): ClientStore<T> {
     const store = writable(defaultState)
     const client = new Peer()
+    const connected = writable(false)
     
     let lastChangeRemote = true;
 
@@ -45,6 +60,7 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> {
         const connection = client.connect(hostIdentifier)
         
         connection.on('open', () => {
+            connected.set(true)
             lastChangeRemote = true;
 
             const unsubscribe = store.subscribe(state => {
@@ -52,7 +68,10 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> {
                 connection.send(state)
             })
             
-            connection.on('close', unsubscribe)
+            connection.on('close', () => {
+                unsubscribe()
+                connected.set(false)
+            })
         })
         
         connection.on('data', data => {
@@ -69,7 +88,7 @@ function peerClient<T>(defaultState: T, hostIdentifier: string): Writable<T> {
     onDestroy(() => client.destroy())
 
 
-    return {...store, set}
+    return {...store, set, connected}
 
 }
 

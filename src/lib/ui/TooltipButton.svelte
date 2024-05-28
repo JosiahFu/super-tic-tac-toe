@@ -4,10 +4,12 @@
     export let tooltip: string
     
     let hovered = false;
+    
+    export let shown = false;
 </script>
 
 <div class="container">
-    {#if hovered}
+    {#if hovered || shown}
         <div class="tooltip-container" transition:fade={{duration: 200}}>
             <div class="tooltip">{tooltip}</div>
         </div>

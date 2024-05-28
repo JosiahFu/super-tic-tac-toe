@@ -7,7 +7,7 @@
     export let id: string;
     export let link: string;
     
-    export let open = false;
+    let open = false;
     
     let input: HTMLInputElement
     
@@ -22,6 +22,12 @@
         input.setSelectionRange(0, 9999)
         delayReset();
     }
+    
+    function openSelf() {
+        open = true
+    }
+
+    export { openSelf as open }
 </script>
 
 

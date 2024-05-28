@@ -25,7 +25,9 @@ export function localString<S extends string = string>(key: string, defaultValue
     onDestroy(unsubscribe);
 
     return store;
-}export function localBoolean(key: string, defaultValue: boolean = false, sync = false): Writable<boolean> {
+}
+
+export function localBoolean(key: string, defaultValue: boolean = false, sync = false): Writable<boolean> {
     const store = localString<'true' | 'false'>(key, defaultValue ? 'true' : 'false', sync);
 
     return derivedWritable(store, value => value === 'true', value => value ? 'true' : 'false');
