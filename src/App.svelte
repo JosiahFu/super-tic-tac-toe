@@ -7,7 +7,6 @@
     import Sidebar from './Sidebar.svelte';
     import InviteButton from './InviteButton.svelte';
     import { localBoolean } from './lib/stores/localStore';
-    import ConnectedButton from './ConnectedButton.svelte';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
     
@@ -39,6 +38,7 @@
         gameType = undefined;
         id = '';
         connected = false;
+        window.history.replaceState({}, '', `${window.location.origin}${window.location.pathname}`)
     }
     
     $: document.body.classList.toggle('light', $themeValue === 'light')
@@ -61,7 +61,7 @@
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} noExit />
         </section>
     {:else}
-        <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => inviteDialog?.open()}>
+        <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => {if (gameType === 'host') inviteDialog?.open()}}>
             {#if gameType === 'single'}
                 <Game />
             {:else if gameType === 'host'}
@@ -71,10 +71,7 @@
             {/if}
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} on:exit={exit}>
                 {#if gameType !== 'single'}
-                    <ConnectedButton {connected} host={gameType === 'host'} />
-                {/if}
-                {#if gameType === 'host'}
-                    <InviteButton {id} link={createLink(id)} bind:this={inviteDialog} />
+                    <InviteButton {id} link={createLink(id)} {connected} host={gameType === 'host'} bind:this={inviteDialog} />
                 {/if}
             </Sidebar>
         </section>

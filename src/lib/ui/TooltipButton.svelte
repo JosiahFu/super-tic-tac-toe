@@ -3,6 +3,8 @@
 
     export let tooltip: string
     
+    export let disabled = false;
+    
     let hovered = false;
     
     export let shown = false;
@@ -14,7 +16,7 @@
             <div class="tooltip">{tooltip}</div>
         </div>
     {/if}
-    <button on:click on:mouseenter={() => hovered = true} on:mouseleave={() => hovered = false}>
+    <button on:click on:mouseenter={() => hovered = true} on:mouseleave={() => hovered = false} {disabled}>
         <slot />
     </button>
 </div>

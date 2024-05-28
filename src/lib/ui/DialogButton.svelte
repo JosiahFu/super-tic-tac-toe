@@ -3,12 +3,17 @@
     import TooltipButton from './TooltipButton.svelte';
 
     export let tooltip: string;
+    export let tooltipShown = false;
     export let open = false;
+    export let disabled = false;
 </script>
 
 <TooltipButton
     on:click={() => open = true}
-    {tooltip}>
+    {tooltip}
+    shown={tooltipShown}
+    {disabled}
+    >
     <slot name="button" />
 </TooltipButton>
 

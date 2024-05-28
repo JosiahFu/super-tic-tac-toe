@@ -80,8 +80,12 @@ button:hover {
   filter: brightness(1.2);
 }
 
-button:active {
+button:not(:disabled):active {
   scale: 0.93;
+}
+
+button:disabled {
+  cursor: initial;
 }
 
 .light {

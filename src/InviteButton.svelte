@@ -2,10 +2,23 @@
     import QRCode from '@castlenine/svelte-qrcode';
     import DialogButton from './lib/ui/DialogButton.svelte';
     import { debouncedDelay } from './lib/debouncedDelay';
-    import { ClipboardCheckIcon, ClipboardIcon, InviteIcon } from './lib/icons/icons';
+    import { ClipboardCheckIcon, ClipboardIcon, ConnectedIcon, InviteIcon, ProgressIcon } from './lib/icons/icons';
 
     export let id: string;
     export let link: string;
+    export let host = false;
+    export let connected: boolean;
+
+    let tooltipShown = false;
+
+    $: {
+        if (!host || connected) {
+            tooltipShown = true
+            if (connected) setTimeout(() => tooltipShown = false, 5000);
+        }
+    }
+    
+    $: allowed = host && !connected
     
     let open = false;
     
@@ -31,8 +44,16 @@
 </script>
 
 
-<DialogButton tooltip="Invite" bind:open>
-    <InviteIcon slot="button" />
+<DialogButton tooltip={connected ? 'Connected' : host ? 'Invite' : 'Connecting...'} bind:open {tooltipShown} disabled={!allowed}>
+    <svelte:fragment slot="button">
+        {#if connected}
+            <ConnectedIcon />
+        {:else if host}
+            <InviteIcon />
+        {:else}
+            <ProgressIcon class="button-spin" />
+        {/if}
+    </svelte:fragment>
 
     <h2>Game Code</h2>
 
@@ -59,6 +80,11 @@
 </DialogButton>
 
 <style>
+    
+    :global(.button-spin) {
+        animation: spin 1s linear infinite;
+    }
+    
     .code {
         font-family: monospace;
         padding: 0.3em 0.6em;        
@@ -90,5 +116,10 @@
     input {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
+    }
+    
+    @keyframes spin {
+        from { rotate: 0deg; }
+        to { rotate: 360deg; }
     }
 </style>
