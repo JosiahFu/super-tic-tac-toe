@@ -70,11 +70,11 @@
                 <NetworkGame {id} bind:connected />
             {/if}
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} on:exit={exit}>
-                {#if gameType === 'host'}
-                    <InviteButton {id} link={createLink(id)} bind:this={inviteDialog} />
-                {/if}
                 {#if gameType !== 'single'}
                     <ConnectedButton {connected} host={gameType === 'host'} />
+                {/if}
+                {#if gameType === 'host'}
+                    <InviteButton {id} link={createLink(id)} bind:this={inviteDialog} />
                 {/if}
             </Sidebar>
         </section>

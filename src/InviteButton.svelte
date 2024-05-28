@@ -44,6 +44,7 @@
 
     <h2>Link</h2>
     <div class="link-container">
+        <input readonly value={link} bind:this={input} />
         <button on:click={copyLink}>
             {#if copiedLink}
                 <ClipboardCheckIcon />
@@ -52,7 +53,6 @@
             {/if}
             {' '}Copy
         </button>
-        <input readonly value={link} bind:this={input} />
     </div>
     
     <QRCode data={link} isResponsive />
@@ -82,13 +82,13 @@
     }
     
     button {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
         gap: 0.3em;
     }
     
     input {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 </style>
