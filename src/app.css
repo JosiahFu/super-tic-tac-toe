@@ -11,9 +11,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
+  --fg-color: #fff;
+
   --dialog-color: #242424;
   --button-color: #383838;
-  --fg-color: #fff;
+  --field-color: #171717;
+
   --accent-color: #5b1bf0;
   --x-color: #ff1f1f;
   --o-color: #007fff;
@@ -25,9 +28,12 @@
   color: var(--fg-color);
   background-color: #ffffff;
 
+  --fg-color: #1c1c1c;
+
   --dialog-color: #eeeeee;
   --button-color: #ccc;
-  --fg-color: #1c1c1c;
+  --field-color: #ddd;
+
   --x-color-focus: #ff7f7f3f;
   --o-color-focus: #7fbfff3f;
 }
@@ -48,6 +54,21 @@ button {
   border: none;
   border-radius: 0.5em;
   font-size: inherit;
+  transition: filter 0.15s;
+}
+
+input {
+  padding: 0.5em;
+  background: var(--field-color);
+  color: inherit;
+  font-family: inherit;
+  border: none;
+  font-size: inherit;
+  border-radius: 0.5em;
+}
+
+input:focus {
+  outline: 2px solid var(--fg-color);
 }
 
 button:hover:not(:active) {
@@ -62,4 +83,8 @@ button:hover:not(:active) {
 
 h2 {
   text-align: center;
+}
+
+svg { 
+  display: block;
 }

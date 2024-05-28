@@ -1,26 +1,56 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import type { KeyboardEventHandler } from 'svelte/elements';
 
     export let value = ''
     
     export let optional = false;
     
-    const dispatch = createEventDispatcher<{submit: string}>();
+    const dispatch = createEventDispatcher<{submit: string, cancel: undefined}>();
     
-    function click() {
+    function submit() {
         if (optional || value) {
             dispatch('submit', value)
         }
     }
+    
+    const keydown: KeyboardEventHandler<HTMLInputElement> = event => {
+        if (event.key === 'Enter') {
+            submit();
+        }
+    }
 </script>
 
-<div>
+<div class="container">
     <label>
-        Id
-        {#if optional}
-            (optional)
-        {/if}
-        <input bind:value />
-        <button on:click={click}>Enter</button>
+        <h2>
+            Game Id
+            {#if optional}
+                (optional)
+            {/if}
+        </h2>
+        <input bind:value on:keydown={keydown} />
     </label>
+
+    <div class="button-container">
+        <button on:click={() => dispatch('cancel')}>Cancel</button>
+        {' '}
+        <button on:click={submit}>Submit</button>
+    </div>
 </div>
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .button-container {
+        text-align: center;
+    }
+
+    label {
+        display: contents;
+    }
+</style>

@@ -5,8 +5,11 @@
     import NetworkGame from './NetworkGame.svelte';
     import { theme } from './lib/theme';
     import MultiButton from './lib/MultiButton.svelte';
-    import ThemePicker from './ThemePicker.svelte';
     import AppSidebar from './AppSidebar.svelte';
+    import ThemeButton from './ThemeButton.svelte';
+    import DialogButton from './lib/DialogButton.svelte';
+    import { InviteIcon } from './lib/icons/icons';
+    import InviteButton from './InviteButton.svelte';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
     
@@ -19,6 +22,10 @@
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         return [...new Array(4).keys()].map(() => letters[Math.floor(letters.length * Math.random())]).join('')
     }
+
+    function createLink(id: string) {
+        return `${window.location.origin}${window.location.pathname}?join=${id}`
+    }
     
     function host() {
         gameType = 'host'
@@ -30,74 +37,50 @@
         id = '';
     }
     
-    $: if ($themeValue === 'light') {
-        document.body.classList.add('light')
-    } else {
-        document.body.classList.remove('light')
-    }
-</script>
-
-<script lang="ts" context="module">
-    export function createLink(id: string) {
-        return `${window.location.origin}${window.location.pathname}?join=${id}`
-    }
+    $: document.body.classList.toggle('light', $themeValue === 'light')
 </script>
 
 <main>
-    {#if gameType === undefined}
-        <section class="menu" in:fade={{delay: 401}} out:fade>
-            <div class="column">
-                <h2>Start Game</h2>
-                <button on:click={() => gameType = 'single'}>Single Device</button>
-                <button on:click={host}>Host</button>
-                <button on:click={() => gameType = 'client'}>Join</button>
-            </div>
-            
-            <div class="column">
-                <ThemePicker bind:theme={$themeSetting} />
-            </div>
+    {#if gameType === 'client' && !id}
+        <section class="screen" in:fade={{delay: 401}} out:fade>
+            <IdDialog on:submit={event => id = event.detail} on:cancel={() => gameType = undefined}/>
+        </section>
+    {:else if gameType === undefined}
+        <section class="screen menu" in:fade={{delay: 401}} out:fade>
+            <h2>Start Game</h2>
+            <button on:click={() => gameType = 'single'}>Single Device</button>
+            <button on:click={host}>Host</button>
+            <button on:click={() => gameType = 'client'}>Join</button>
+
+            <AppSidebar bind:theme={$themeSetting} noExit />
         </section>
     {:else}
-        <section class="game" in:fade={{delay: 401}} out:fade>
+        <section class="screen game" in:fade={{delay: 401}} out:fade>
             {#if gameType === 'single'}
-                <Game>
-                    <AppSidebar slot="sidebar" bind:theme={$themeSetting} on:exit={exit} />
-                </Game>
+                <Game />
             {:else if gameType === 'host'}
-                <NetworkGame host {id}>
-                    <AppSidebar slot="sidebar" bind:theme={$themeSetting} on:exit={exit} />
-                </NetworkGame>
+                <NetworkGame host {id} />
             {:else if gameType === 'client'}
-                {#if !id}
-                    <IdDialog on:submit={event => id = event.detail}/>
-                {:else}
-                    <NetworkGame {id}>
-                        <AppSidebar slot="sidebar" bind:theme={$themeSetting} on:exit={exit} />
-                    </NetworkGame>
-                {/if}
+                <NetworkGame {id} />
             {/if}
+            <AppSidebar bind:theme={$themeSetting} on:exit={exit}>
+                {#if gameType === 'host'}
+                    <InviteButton {id} link={createLink(id)} />
+                {/if}
+            </AppSidebar>
         </section>
     {/if}
 </main>
 
 <style>
-    .game {
-        display: grid;
-        height: 100vh;
-        place-items: center;
-    }
-    
-    .menu {
-        height: 100vh;
+    .screen {
         display: grid;
         place-content: center;
-        grid-auto-flow: column;
-        gap: 2em;
+        height: 100vh;
     }
-    
-    .column {
-        display: flex;
-        flex-direction: column;
+
+    .menu {
+        grid-auto-flow: row;
         gap: 1em;
     }
 </style>

@@ -40,11 +40,6 @@
     </div>
 </div>
 
-<div class="sidebar">
-    <slot name="sidebar" />
-    <!--Undo button-->
-</div>
-
 <style>
     .game-container {
         height: 100vmin;
@@ -68,11 +63,5 @@
 
     .next.next-o {
         background-color: var(--o-color-focus);
-    }
-    
-    .sidebar {
-        position: fixed;
-        right: 0;
-        top: 0;
     }
 </style>
