@@ -4,18 +4,19 @@
   font-weight: 400;
 
   color: var(--fg-color);
-  background-color: #1c1c1c;
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-  --fg-color: #fff;
+  --fg-color: #eee;
+  --bg-color: #1c1c1c;
 
-  --dialog-color: #242424;
+  --tooltip-color: #242424bf;
   --button-color: #383838;
-  --field-color: #171717;
+  --field-color: #070707;
 
   --accent-color: #5b1bf0;
   --x-color: #ff1f1f;
@@ -26,13 +27,14 @@
 
 .light {
   color: var(--fg-color);
-  background-color: #ffffff;
+  background-color: var(--bg-color);
 
+  --bg-color: #fff;
   --fg-color: #1c1c1c;
 
-  --dialog-color: #eeeeee;
+  --tooltip-color: #eeeeeebf;
   --button-color: #ccc;
-  --field-color: #ddd;
+  --field-color: #efefef;
 
   --x-color-focus: #ff7f7f3f;
   --o-color-focus: #7fbfff3f;

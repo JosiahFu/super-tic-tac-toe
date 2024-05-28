@@ -57,7 +57,7 @@
         position: relative;
         padding: 2em;
         border-radius: 2em;
-        background-color: var(--dialog-color);
+        background-color: var(--bg-color);
         border: none;
         color: inherit;
     }

@@ -37,7 +37,7 @@
     .tooltip {
         position: absolute;
         right: 0.5em;
-        background-color: var(--dialog-color);
+        background-color: var(--tooltip-color);
         padding: 0.5em 1em;
         border-radius: 0.5em;
         width: max-content;
