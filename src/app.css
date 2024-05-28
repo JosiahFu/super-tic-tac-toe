@@ -54,7 +54,7 @@ button {
   border: none;
   border-radius: 0.5em;
   font-size: inherit;
-  transition: filter 0.15s;
+  transition: filter 0.15s, scale 0.15s;
 }
 
 input {
@@ -71,12 +71,16 @@ input:focus {
   outline: 2px solid var(--fg-color);
 }
 
-button:hover:not(:active) {
+button:hover {
   filter: brightness(1.2);
 }
 
+button:active {
+  scale: 0.93;
+}
+
 .light {
-  button:hover:not(:active) {
+  button:hover {
     filter: brightness(0.9);
   }
 }

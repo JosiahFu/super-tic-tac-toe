@@ -13,13 +13,13 @@
 
 
 <div class="sidebar">
+    <slot />
+    <ThemeButton bind:theme />
     {#if !noExit}
         <TooltipButton on:click={() => dispatch('exit')} tooltip="Exit">
             <ExitIcon />
         </TooltipButton>
     {/if}
-    <ThemeButton bind:theme />
-    <slot />
 </div>
 
 <style>

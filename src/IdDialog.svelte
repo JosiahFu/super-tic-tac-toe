@@ -14,9 +14,11 @@
         }
     }
     
-    const keydown: KeyboardEventHandler<HTMLInputElement> = event => {
+    const keydown: KeyboardEventHandler<Window> = event => {
         if (event.key === 'Enter') {
             submit();
+        } else if (event.key === 'Escape') {
+            dispatch('cancel');
         }
     }
 </script>
@@ -29,7 +31,7 @@
                 (optional)
             {/if}
         </h2>
-        <input bind:value on:keydown={keydown} />
+        <input bind:value />
     </label>
 
     <div class="button-container">
@@ -38,6 +40,8 @@
         <button on:click={submit}>Submit</button>
     </div>
 </div>
+
+<svelte:window on:keydown={keydown} />
 
 <style>
     .container {

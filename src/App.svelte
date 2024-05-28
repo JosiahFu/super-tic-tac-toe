@@ -4,11 +4,7 @@
     import IdDialog from './IdDialog.svelte';
     import NetworkGame from './NetworkGame.svelte';
     import { theme } from './lib/theme';
-    import MultiButton from './lib/MultiButton.svelte';
-    import AppSidebar from './AppSidebar.svelte';
-    import ThemeButton from './ThemeButton.svelte';
-    import DialogButton from './lib/DialogButton.svelte';
-    import { InviteIcon } from './lib/icons/icons';
+    import Sidebar from './Sidebar.svelte';
     import InviteButton from './InviteButton.svelte';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
@@ -52,7 +48,7 @@
             <button on:click={host}>Host</button>
             <button on:click={() => gameType = 'client'}>Join</button>
 
-            <AppSidebar bind:theme={$themeSetting} noExit />
+            <Sidebar bind:theme={$themeSetting} noExit />
         </section>
     {:else}
         <section class="screen game" in:fade={{delay: 401}} out:fade>
@@ -63,11 +59,11 @@
             {:else if gameType === 'client'}
                 <NetworkGame {id} />
             {/if}
-            <AppSidebar bind:theme={$themeSetting} on:exit={exit}>
+            <Sidebar bind:theme={$themeSetting} on:exit={exit}>
                 {#if gameType === 'host'}
                     <InviteButton {id} link={createLink(id)} />
                 {/if}
-            </AppSidebar>
+            </Sidebar>
         </section>
     {/if}
 </main>
