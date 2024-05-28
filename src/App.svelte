@@ -14,6 +14,7 @@
     let id = joinId || '';
     
     let inviteOpen = false;
+    let idDialog: IdDialog | undefined;
 
     const [themeSetting, themeValue] = theme()
     const highContrast = localBoolean('highContrast', false)
@@ -30,12 +31,12 @@
     function host() {
         gameType = 'host'
         id = genBaseId()
-        setTimeout(() => inviteOpen = true, 800)
     }
     
     function exit() {
         gameType = undefined;
         id = '';
+        inviteOpen = false;
     }
     
     $: document.body.classList.toggle('light', $themeValue === 'light')
@@ -44,11 +45,12 @@
 
 <main>
     {#if gameType === 'client' && !id}
-        <section class="screen" in:fade={{delay: 401}} out:fade>
-            <IdDialog on:submit={event => id = event.detail} on:cancel={() => gameType = undefined}/>
+        <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => idDialog?.focus()}>
+            <IdDialog on:submit={event => id = event.detail} on:cancel={() => gameType = undefined} bind:this={idDialog} />
         </section>
     {:else if gameType === undefined}
         <section class="screen menu" in:fade={{delay: 401}} out:fade>
+            <h1>Super Tic Tac Toe</h1>
             <h2>Start Game</h2>
             <button on:click={() => gameType = 'single'}>Single Device</button>
             <button on:click={host}>Host</button>
@@ -57,7 +59,7 @@
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} noExit />
         </section>
     {:else}
-        <section class="screen game" in:fade={{delay: 401}} out:fade>
+        <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => inviteOpen = true}>
             {#if gameType === 'single'}
                 <Game />
             {:else if gameType === 'host'}
@@ -88,5 +90,16 @@
     
     button {
         justify-content: center;
+        font-size: 1.5em;
+    }
+    
+    h2 {
+        font-size: 2em;
+        margin: 0.5em 0;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+        margin: 0.5em 0;
     }
 </style>

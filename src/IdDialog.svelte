@@ -6,6 +6,8 @@
     
     export let optional = false;
     
+    let input: HTMLInputElement
+    
     const dispatch = createEventDispatcher<{submit: string, cancel: undefined}>();
     
     function submit() {
@@ -21,6 +23,10 @@
             dispatch('cancel');
         }
     }
+    
+    export function focus() {
+        input?.focus();
+    }
 </script>
 
 <div class="container">
@@ -31,7 +37,7 @@
                 (optional)
             {/if}
         </h2>
-        <input bind:value />
+        <input bind:this={input} bind:value />
     </label>
 
     <div class="button-container">
