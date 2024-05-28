@@ -13,16 +13,36 @@
     function exit() {
         open = false;
     }
+    
+    function keyDown(event: KeyboardEvent) {
+        if (!open) return;
+        if (event.key === 'Escape') {
+            exit();
+        }
+    }
+
+    // // WIP
+    // function scaleWithBackdropFade(node: HTMLDialogElement, {duration = 400, delay = 0} = {}):  TransitionConfig {
+    //     const scaleConfig = scale(node, {duration, delay})
+
+    //     return {
+    //         duration,
+    //         delay,
+    //         css: (t, u) => `${scaleConfig.css?.(t, u)} &::backdrop { opacity: ${t}; }`
+    //     }
+    // }
 </script>
 
 {#if open}
-    <dialog bind:this={dialog} on:close|preventDefault transition:scale>
+    <dialog bind:this={dialog} on:cancel|preventDefault transition:scale>
         <button on:click={exit}>
             <CloseIcon class="close-icon" />
         </button>
         <slot />
     </dialog>
 {/if}
+
+<svelte:window on:keydown={keyDown} />
 
 <style>
     dialog {
