@@ -21,6 +21,12 @@
         }
     }
 
+    function click({clientX, clientY}: MouseEvent) {
+        const {top, bottom, left, right} = dialog.getBoundingClientRect()
+        if (clientX < right && clientX > left && clientY < bottom && clientY > top) return
+        exit()
+    }
+
     // // WIP
     // function scaleWithBackdropFade(node: HTMLDialogElement, {duration = 400, delay = 0} = {}):  TransitionConfig {
     //     const scaleConfig = scale(node, {duration, delay})
@@ -34,7 +40,9 @@
 </script>
 
 {#if open}
-    <dialog bind:this={dialog} on:cancel|preventDefault transition:scale={{start: 0.7}}>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <dialog bind:this={dialog} on:cancel|preventDefault transition:scale={{start: 0.7}} on:click={click}>
         <button on:click={exit}>
             <CloseIcon class="close-icon" />
         </button>
