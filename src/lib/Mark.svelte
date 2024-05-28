@@ -32,6 +32,9 @@
     button {
         background-color: transparent;
         border: none;
+        cursor: initial;
+        scale: 1;
+        filter: none;
     }
 
     .cell {
