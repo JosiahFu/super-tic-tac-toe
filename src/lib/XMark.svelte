@@ -23,7 +23,7 @@
         display: block
     }
     
-    .container.hoverable:hover {
+    :global(.mark):hover .container.hoverable {
         opacity: 0.5;
         transition: 0.1s;
     }

@@ -22,7 +22,7 @@
         display: block
     }
     
-    .circle.hoverable:hover {
+    :global(.mark):hover .circle.hoverable {
         opacity: 0.5;
         transition: 0.1s;
     }

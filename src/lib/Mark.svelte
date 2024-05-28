@@ -23,7 +23,7 @@
     }
 </script>
 
-<button class="cell" class:available on:click={click}>
+<button class="mark" class:available on:click={click}>
     <XMark active={mark === 'X'} hoverable={available && $turn === 'X'} />
     <OMark active={mark === 'O'} hoverable={available && $turn === 'O'} />
 </button>
@@ -37,7 +37,7 @@
         filter: none;
     }
 
-    .cell {
+    .mark {
         position: relative;
     }
     
