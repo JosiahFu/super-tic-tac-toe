@@ -5,7 +5,7 @@
     import NetworkGame from './NetworkGame.svelte';
     import { theme } from './lib/theme';
     import Sidebar from './Sidebar.svelte';
-    import InviteButton from './InviteButton.svelte';
+    import ConnectionButton from './ConnectionButton.svelte';
     import { localBoolean } from './lib/stores/localStore';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
@@ -13,7 +13,7 @@
     let gameType: 'single' | 'host' | 'client' | undefined = joinId ? 'client' : undefined;
     let id = joinId || '';
     
-    let inviteDialog: InviteButton | undefined;
+    let inviteDialog: ConnectionButton | undefined;
     let idDialog: IdDialog | undefined;
     let connected: boolean = false;
 
@@ -71,7 +71,7 @@
             {/if}
             <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} on:exit={exit}>
                 {#if gameType !== 'single'}
-                    <InviteButton {id} link={createLink(id)} {connected} host={gameType === 'host'} bind:this={inviteDialog} />
+                    <ConnectionButton {id} link={createLink(id)} {connected} host={gameType === 'host'} bind:this={inviteDialog} />
                 {/if}
             </Sidebar>
         </section>
