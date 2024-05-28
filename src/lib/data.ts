@@ -30,9 +30,6 @@ function compare(...values: Result[]) {
     return values[0] !== null && values[0] !== '-' && values.every((e, i) => i === 0 || e === values[i-1]);
 }
 
-/**
- * @returns `null` means tie, `undefined` means incomplete
- */
 export function winnerOf(grid: Nine<Result>): Result {
     for (let i = 0; i < 3; i++) {
         if (compare(grid[i], grid[i + 3], grid[i + 6])) return grid[i]
