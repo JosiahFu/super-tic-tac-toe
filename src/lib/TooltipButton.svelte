@@ -36,5 +36,6 @@
         background-color: var(--dialog-color);
         padding: 0.5em 1em;
         border-radius: 0.5em;
+        width: max-content;
     }
 </style>

@@ -3,8 +3,10 @@
     import ThemeButton from './ThemeButton.svelte';
     import TooltipButton from './lib/TooltipButton.svelte';
     import { ExitIcon } from './lib/icons/icons';
+    import type { ThemeSetting } from './lib/theme';
     
-    export let theme: 'light' | 'dark' | 'system';
+    export let theme: ThemeSetting;
+    export let highContrast: boolean;
     
     export let noExit = false;
 
@@ -14,9 +16,9 @@
 
 <div class="sidebar">
     <slot />
-    <ThemeButton bind:theme />
+    <ThemeButton bind:theme bind:highContrast />
     {#if !noExit}
-        <TooltipButton on:click={() => dispatch('exit')} tooltip="Exit">
+        <TooltipButton on:click={() => dispatch('exit')} tooltip="Leave Game">
             <ExitIcon />
         </TooltipButton>
     {/if}

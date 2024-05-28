@@ -57,4 +57,8 @@
     label {
         display: contents;
     }
+    
+    button {
+        display: inline;
+    }
 </style>

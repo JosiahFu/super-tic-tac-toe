@@ -6,6 +6,7 @@
     import { theme } from './lib/theme';
     import Sidebar from './Sidebar.svelte';
     import InviteButton from './InviteButton.svelte';
+    import { localBoolean } from './lib/localStore';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
     
@@ -15,6 +16,7 @@
     let inviteOpen = false;
 
     const [themeSetting, themeValue] = theme()
+    const highContrast = localBoolean('highContrast', false)
 
     function genBaseId() {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -37,6 +39,7 @@
     }
     
     $: document.body.classList.toggle('light', $themeValue === 'light')
+    $: document.body.classList.toggle('high-contrast', $highContrast)
 </script>
 
 <main>
@@ -51,7 +54,7 @@
             <button on:click={host}>Host</button>
             <button on:click={() => gameType = 'client'}>Join</button>
 
-            <Sidebar bind:theme={$themeSetting} noExit />
+            <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} noExit />
         </section>
     {:else}
         <section class="screen game" in:fade={{delay: 401}} out:fade>
@@ -62,7 +65,7 @@
             {:else if gameType === 'client'}
                 <NetworkGame {id} />
             {/if}
-            <Sidebar bind:theme={$themeSetting} on:exit={exit}>
+            <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} on:exit={exit}>
                 {#if gameType === 'host'}
                     <InviteButton {id} link={createLink(id)} bind:open={inviteOpen} />
                 {/if}
@@ -81,5 +84,9 @@
     .menu {
         grid-auto-flow: row;
         gap: 1em;
+    }
+    
+    button {
+        justify-content: center;
     }
 </style>

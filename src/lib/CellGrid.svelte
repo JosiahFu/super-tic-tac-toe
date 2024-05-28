@@ -30,11 +30,11 @@
     }
     
     .vert {
-        width: var(--border-width);
+        width: max(2px, 0.3vmin);        
     }
     
     .hor {
         grid-column: span 5;
-        height: var(--border-width);
+        height: max(2px, 0.3vmin);        
     }
 </style>

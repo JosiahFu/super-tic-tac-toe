@@ -25,10 +25,12 @@
     
     $: subWins = gameState.grid.map(winnerOf) as Nine<Result>
     $: winner = winnerOf(subWins)
+    
+    $: superNext = winner === null && gameState.nextGrid === null
 </script>
 
 <div class="game-container">
-    <div class="game" class:next={winner === null && gameState.nextGrid === null} class:next-x={gameState.turn === 'X'} class:next-o={gameState.turn === 'O'}>
+    <div class="game" class:next-x={superNext && gameState.turn === 'X'} class:next-o={superNext && gameState.turn === 'O'}>
         <CellGrid let:index >
             <SubGrid
                 bind:grid={gameState.grid[index]}
@@ -54,14 +56,33 @@
         border-radius: 1em;
         box-sizing: border-box;
         --border-width: max(3px, 0.5vmin);
+        border-color: transparent;
         transition: background-color 0.4s;
     }
     
-    .next.next-x {
+    :global(.high-contrast) .game {
+        border: var(--border-width) solid transparent;
+    }
+    
+    .next-x {
         background-color: var(--x-color-focus);
     }
-
-    .next.next-o {
-        background-color: var(--o-color-focus);
+    
+    :global(.high-contrast) .next-x {
+        border-color: var(--x-color);
     }
+    
+    .next-o {
+        background-color: var(--o-color-focus);
+        border-color: var(--o-color);
+    }
+
+    :global(.high-contrast) .next-o {
+        border-color: var(--o-color);
+    }
+    
+    :global(.high-contrast) .next-x, :global(.high-contrast) .next-o {
+        background-color: transparent
+    }
+    
 </style>

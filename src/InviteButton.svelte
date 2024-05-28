@@ -78,9 +78,6 @@ import DialogButton from './lib/DialogButton.svelte';
     button {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        display: inline-flex;
-        flex-direction: row;
-        align-content: center;
         gap: 0.3em;
     }
     

@@ -35,15 +35,33 @@
         padding: 5%;
         margin: 5%;
         border-radius: 5%;
-        transition: background-color 0.4s;
+        border-color: transparent;
+        transition: background-color 0.4s, border-color 0.4s;
+    }
+    
+    :global(.high-contrast) .container {
+        border: var(--border-width) solid transparent;
     }
     
     .next-x {
-        background-color: var(--x-color-focus)
+        background-color: var(--x-color-focus);
+    }
+    
+    :global(.high-contrast) .next-x {
+        border-color: var(--x-color);
     }
     
     .next-o {
-        background-color: var(--o-color-focus)
+        background-color: var(--o-color-focus);
+        border-color: var(--o-color);
+    }
+
+    :global(.high-contrast) .next-o {
+        border-color: var(--o-color);
+    }
+    
+    :global(.high-contrast) .next-x, :global(.high-contrast) .next-o {
+        background-color: transparent
     }
     
     .submark-container {
