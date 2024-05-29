@@ -106,3 +106,9 @@ svg {
   height: 1.5em;
   width: 1.5em;
 }
+
+.qr-container svg {
+  display: initial;
+  height: auto;
+  width: auto;
+}

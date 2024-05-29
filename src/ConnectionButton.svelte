@@ -76,7 +76,9 @@
         </button>
     </div>
     
-    <QRCode data={link} isResponsive />
+    <div class="qr-container">
+        <QRCode data={link} isResponsive />
+    </div>
 </DialogButton>
 
 <style>
@@ -105,6 +107,10 @@
         display: flex;
         flex-direction: row;
         margin-bottom: 1em;
+    }
+    
+    .qr-container {
+        display: contents;
     }
     
     button {
