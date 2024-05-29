@@ -102,4 +102,7 @@ h2 {
 
 svg { 
   display: block;
+  /* 24px by 24px default */
+  height: 1.5em;
+  width: 1.5em;
 }

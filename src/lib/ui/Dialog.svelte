@@ -64,8 +64,8 @@
     
     button {
         position: absolute;
-        top: 1.4em;
-        right: 1.4em;
+        top: 1.1em;
+        right: 1.1em;
         padding: 0.3em;
         border-radius: 50%;
     }
