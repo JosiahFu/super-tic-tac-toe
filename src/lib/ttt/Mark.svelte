@@ -33,8 +33,11 @@
         background-color: transparent;
         border: none;
         cursor: initial;
-        scale: 1;
         filter: none;
+    }
+
+    button:active {
+        scale: 1;
     }
 
     .mark {
