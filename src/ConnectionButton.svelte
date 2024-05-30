@@ -12,9 +12,9 @@
     let tooltipShown = false;
 
     $: {
-        if (!host || connected) {
-            tooltipShown = true
-            if (connected) setTimeout(() => tooltipShown = false, 5000);
+        tooltipShown = true
+        if (connected || host) {
+            setTimeout(() => tooltipShown = false, 4000);
         }
     }
     
