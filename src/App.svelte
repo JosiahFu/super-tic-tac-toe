@@ -3,10 +3,9 @@
     import Game from './Game.svelte';
     import IdDialog from './IdDialog.svelte';
     import NetworkGame from './NetworkGame.svelte';
-    import { theme } from './lib/theme';
+    import { highContrast, themeSetting, themeState } from './lib/theme';
     import Sidebar from './Sidebar.svelte';
     import ConnectionButton from './ConnectionButton.svelte';
-    import { localBoolean } from './lib/stores/localStore';
     
     const joinId = new URLSearchParams(window.location.search).get('join')
     
@@ -16,9 +15,6 @@
     let inviteDialog: ConnectionButton | undefined;
     let idDialog: IdDialog | undefined;
     let connected: boolean = false;
-
-    const [themeSetting, themeValue] = theme()
-    const highContrast = localBoolean('highContrast', false)
 
     function genBaseId() {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -41,7 +37,7 @@
         window.history.replaceState({}, '', `${window.location.origin}${window.location.pathname}`)
     }
     
-    $: document.body.classList.toggle('light', $themeValue === 'light')
+    $: document.body.classList.toggle('light', $themeState === 'light')
     $: document.body.classList.toggle('high-contrast', $highContrast)
 </script>
 
@@ -58,7 +54,7 @@
             <button on:click={host}>Host</button>
             <button on:click={() => gameType = 'client'}>Join</button>
 
-            <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} noExit />
+            <Sidebar noExit />
         </section>
     {:else}
         <section class="screen" in:fade={{delay: 401}} out:fade on:introend={() => {if (gameType === 'host') inviteDialog?.open()}}>
@@ -69,7 +65,7 @@
             {:else if gameType === 'client'}
                 <NetworkGame {id} bind:connected />
             {/if}
-            <Sidebar bind:theme={$themeSetting} bind:highContrast={$highContrast} on:exit={exit}>
+            <Sidebar on:exit={exit}>
                 {#if gameType !== 'single'}
                     <ConnectionButton {id} link={createLink(id)} {connected} host={gameType === 'host'} bind:this={inviteDialog} />
                 {/if}

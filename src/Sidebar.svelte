@@ -5,9 +5,6 @@
     import { ExitIcon } from './lib/icons/icons';
     import type { ThemeSetting } from './lib/theme';
     
-    export let theme: ThemeSetting;
-    export let highContrast: boolean;
-    
     export let noExit = false;
 
     const dispatch = createEventDispatcher<{exit: undefined}>()
@@ -16,7 +13,7 @@
 
 <div class="sidebar">
     <slot />
-    <ThemeButton bind:theme bind:highContrast />
+    <ThemeButton />
     {#if !noExit}
         <TooltipButton on:click={() => dispatch('exit')} tooltip="Leave Game">
             <ExitIcon />

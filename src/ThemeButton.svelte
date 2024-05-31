@@ -2,10 +2,8 @@
     import DialogButton from "./lib/ui/DialogButton.svelte";
     import MultiButton from './lib/ui/MultiButton.svelte';
     import { ContrastIcon, DarkModeIcon, LightModeIcon, MonitorIcon, NoContrastIcon, ThemeIcon } from './lib/icons/icons';
-    import type { ThemeSetting } from './lib/theme';
+    import { highContrast, themeSetting, type ThemeSetting } from './lib/theme';
 
-    export let theme: ThemeSetting;
-    export let highContrast: boolean;
 </script>
 
 <DialogButton tooltip="Theme">
@@ -17,15 +15,15 @@
             <h2>Theme</h2>
 
             <div class="button-container">
-                <MultiButton bind:group={theme} value='system' class="theme-multibutton">
+                <MultiButton bind:group={$themeSetting} value='system' class="theme-multibutton">
                     <MonitorIcon />
                     System
                 </MultiButton>
-                <MultiButton bind:group={theme} value='light' class="theme-multibutton">
+                <MultiButton bind:group={$themeSetting} value='light' class="theme-multibutton">
                     <LightModeIcon />
                     Light
                 </MultiButton>
-                <MultiButton bind:group={theme} value='dark' class="theme-multibutton">
+                <MultiButton bind:group={$themeSetting} value='dark' class="theme-multibutton">
                     <DarkModeIcon />
                     Dark
                 </MultiButton>
@@ -36,11 +34,11 @@
             <h2>High Contrast</h2>
             
             <div class="button-container">
-                <MultiButton bind:group={highContrast} value={false} class="theme-multibutton">
+                <MultiButton bind:group={$highContrast} value={false} class="theme-multibutton">
                     <NoContrastIcon />
                     Off
                 </MultiButton>
-                <MultiButton bind:group={highContrast} value={true} class="theme-multibutton">
+                <MultiButton bind:group={$highContrast} value={true} class="theme-multibutton">
                     <ContrastIcon />
                     On
                 </MultiButton>
