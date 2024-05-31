@@ -1,114 +1,116 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-  color: var(--fg-color);
-  background-color: var(--bg-color);
+    color: var(--fg-color);
+    background-color: var(--bg-color);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
-  --fg-color: #eee;
-  --bg-color: #1c1c1c;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  --tooltip-color: #242424bf;
-  --button-color: #383838;
-  --field-color: #070707;
+    --fg-color: #eee;
+    --bg-color: #1c1c1c;
 
-  --accent-color: #5b1bf0;
-  --x-color: #ff1f1f;
-  --o-color: #007fff;
-  --x-color-focus: #ff7f7f27;
-  --o-color-focus: #7fbfff27;
+    --tooltip-color: #242424bf;
+    --button-color: #383838;
+    --field-color: #070707;
+
+    --accent-color: #5b1bf0;
+    --x-color: #ff1f1f;
+    --o-color: #007fff;
+    --x-color-focus: #ff7f7f27;
+    --o-color-focus: #7fbfff27;
 }
 
 .light {
-  color: var(--fg-color);
-  background-color: var(--bg-color);
+    color: var(--fg-color);
+    background-color: var(--bg-color);
 
-  --bg-color: #fff;
-  --fg-color: #1c1c1c;
+    --bg-color: #fff;
+    --fg-color: #1c1c1c;
 
-  --tooltip-color: #eeeeeebf;
-  --button-color: #ccc;
-  --field-color: #efefef;
+    --tooltip-color: #eeeeeebf;
+    --button-color: #ccc;
+    --field-color: #efefef;
 
-  --x-color-focus: #ff7f7f3f;
-  --o-color-focus: #7fbfff3f;
+    --x-color-focus: #ff7f7f3f;
+    --o-color-focus: #7fbfff3f;
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
 html {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 button {
-  padding: 0.5em;
-  background-color: var(--button-color);
-  cursor: pointer;
-  color: inherit;
-  border: none;
-  border-radius: 0.5em;
-  font-size: inherit;
-  transition: filter 0.15s, scale 0.15s;
+    padding: 0.5em;
+    background-color: var(--button-color);
+    cursor: pointer;
+    color: inherit;
+    border: none;
+    border-radius: 0.5em;
+    font-size: inherit;
+    transition:
+        filter 0.15s,
+        scale 0.15s;
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
 }
 
 input {
-  padding: 0.5em;
-  background: var(--field-color);
-  color: inherit;
-  font-family: inherit;
-  border: none;
-  font-size: inherit;
-  border-radius: 0.5em;
+    padding: 0.5em;
+    background: var(--field-color);
+    color: inherit;
+    font-family: inherit;
+    border: none;
+    font-size: inherit;
+    border-radius: 0.5em;
 }
 
 input:focus {
-  outline: 2px solid var(--fg-color);
+    outline: 2px solid var(--fg-color);
 }
 
 button:hover {
-  filter: brightness(1.2);
+    filter: brightness(1.2);
 }
 
 button:not(:disabled):active {
-  scale: 0.93;
+    scale: 0.93;
 }
 
 button:disabled {
-  cursor: initial;
+    cursor: initial;
 }
 
 .light {
-  button:hover {
-    filter: brightness(0.9);
-  }
+    button:hover {
+        filter: brightness(0.9);
+    }
 }
 
 h2 {
-  text-align: center;
+    text-align: center;
 }
 
-svg { 
-  display: block;
-  /* 24px by 24px default */
-  height: 1.5em;
-  width: 1.5em;
+svg {
+    display: block;
+    /* 24px by 24px default */
+    height: 1.5em;
+    width: 1.5em;
 }
 
 .qr-container svg {
-  display: initial;
-  height: auto;
-  width: auto;
+    display: initial;
+    height: auto;
+    width: auto;
 }

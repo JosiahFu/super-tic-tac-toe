@@ -1,15 +1,14 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
-    import ThemeButton from './ThemeButton.svelte';
-    import TooltipButton from './lib/ui/TooltipButton.svelte';
-    import { ExitIcon } from './lib/icons/icons';
-    import type { ThemeSetting } from './lib/theme';
-    
-    export let noExit = false;
+    import { createEventDispatcher } from 'svelte'
+    import ThemeButton from './ThemeButton.svelte'
+    import TooltipButton from './lib/ui/TooltipButton.svelte'
+    import { ExitIcon } from './lib/icons/icons'
+    import type { ThemeSetting } from './lib/theme'
 
-    const dispatch = createEventDispatcher<{exit: undefined}>()
+    export let noExit = false
+
+    const dispatch = createEventDispatcher<{ exit: undefined }>()
 </script>
-
 
 <div class="sidebar">
     <slot />

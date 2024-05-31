@@ -1,14 +1,17 @@
 <script lang="ts">
     type T = $$Generic
 
-    export let group: T;
-    export let value: NoInfer<T>;
-    let clazz: string = '';
-    
+    export let group: T
+    export let value: NoInfer<T>
+    let clazz: string = ''
+
     export { clazz as class }
 </script>
 
-<button on:click={() => group = value} class:selected={group === value} class={clazz}>
+<button
+    on:click={() => (group = value)}
+    class:selected={group === value}
+    class={clazz}>
     <slot />
 </button>
 

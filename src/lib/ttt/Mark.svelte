@@ -1,20 +1,20 @@
 <script lang="ts">
-    import { createEventDispatcher, getContext } from 'svelte';
-    import type { Mark } from '../data';
-    import OMark from './OMark.svelte';
-    import XMark from './XMark.svelte';
-    import type { Readable } from 'svelte/store';
+    import { createEventDispatcher, getContext } from 'svelte'
+    import type { Mark } from '../data'
+    import OMark from './OMark.svelte'
+    import XMark from './XMark.svelte'
+    import type { Readable } from 'svelte/store'
 
     export let mark: Mark | null
-    
-    export let allowed: boolean;
-    
+
+    export let allowed: boolean
+
     const turn = getContext<Readable<Mark>>('turn')
 
     $: available = allowed && mark === null
-    
-    const dispatch = createEventDispatcher<{mark: undefined}>()
-    
+
+    const dispatch = createEventDispatcher<{ mark: undefined }>()
+
     function click() {
         if (available) {
             mark = $turn
@@ -43,7 +43,7 @@
     .mark {
         position: relative;
     }
-    
+
     .available {
         cursor: pointer;
     }

@@ -1,31 +1,34 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
-    import type { KeyboardEventHandler } from 'svelte/elements';
+    import { createEventDispatcher } from 'svelte'
+    import type { KeyboardEventHandler } from 'svelte/elements'
 
     export let value = ''
-    
-    export let optional = false;
-    
+
+    export let optional = false
+
     let input: HTMLInputElement
-    
-    const dispatch = createEventDispatcher<{submit: string, cancel: undefined}>();
-    
+
+    const dispatch = createEventDispatcher<{
+        submit: string
+        cancel: undefined
+    }>()
+
     function submit() {
         if (optional || value) {
             dispatch('submit', value)
         }
     }
-    
+
     const keydown: KeyboardEventHandler<Window> = event => {
         if (event.key === 'Enter') {
-            submit();
+            submit()
         } else if (event.key === 'Escape') {
-            dispatch('cancel');
+            dispatch('cancel')
         }
     }
-    
+
     export function focus() {
-        input?.focus();
+        input?.focus()
     }
 </script>
 
@@ -63,7 +66,7 @@
     label {
         display: contents;
     }
-    
+
     button {
         display: inline;
     }

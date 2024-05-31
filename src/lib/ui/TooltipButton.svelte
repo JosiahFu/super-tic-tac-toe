@@ -1,22 +1,26 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
+    import { fade } from 'svelte/transition'
 
     export let tooltip: string
-    
-    export let disabled = false;
-    
-    let hovered = false;
-    
-    export let shown = false;
+
+    export let disabled = false
+
+    let hovered = false
+
+    export let shown = false
 </script>
 
 <div class="container">
     {#if hovered || shown}
-        <div class="tooltip-container" transition:fade={{duration: 200}}>
+        <div class="tooltip-container" transition:fade={{ duration: 200 }}>
             <div class="tooltip">{tooltip}</div>
         </div>
     {/if}
-    <button on:click on:mouseenter={() => hovered = true} on:mouseleave={() => hovered = false} {disabled}>
+    <button
+        on:click
+        on:mouseenter={() => (hovered = true)}
+        on:mouseleave={() => (hovered = false)}
+        {disabled}>
         <slot />
     </button>
 </div>
@@ -25,7 +29,7 @@
     .container {
         position: relative;
     }
-    
+
     .tooltip-container {
         position: absolute;
         left: 0;
@@ -33,7 +37,7 @@
         top: 0;
         bottom: 0;
     }
-    
+
     .tooltip {
         position: absolute;
         right: 0.5em;

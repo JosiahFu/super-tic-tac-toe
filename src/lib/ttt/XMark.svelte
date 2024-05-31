@@ -1,8 +1,7 @@
 <script lang="ts">
-    export let delay = false;
-    export let hoverable = false;
-    export let active: boolean;
-
+    export let delay = false
+    export let hoverable = false
+    export let active: boolean
 </script>
 
 <div class="container" class:active class:hoverable class:delay>
@@ -19,15 +18,16 @@
         display: none;
     }
 
-    .container.active, .container.hoverable {
-        display: block
+    .container.active,
+    .container.hoverable {
+        display: block;
     }
-    
+
     :global(.mark):hover .container.hoverable {
         opacity: 0.5;
         transition: 0.1s;
     }
-    
+
     .container.active {
         opacity: 1;
     }
@@ -40,23 +40,23 @@
         top: 0;
         background-color: var(--x-color);
     }
-    
+
     .active .xmark {
         animation: wipe-down 0.2s linear both;
     }
-    
+
     .xmark.a {
         animation-delay: 0.2s;
     }
-    
+
     .delay .xmark {
         animation-delay: 0.4s;
     }
-    
+
     .delay .xmark.a {
         animation-delay: 0.6s;
     }
-    
+
     .a {
         rotate: -45deg;
     }
@@ -64,9 +64,13 @@
     .b {
         rotate: 45deg;
     }
-    
+
     @keyframes wipe-down {
-        0% { clip-path: inset(0 0 100% 0) }
-        100% { clip-path: inset(0 0 0 0) }
+        0% {
+            clip-path: inset(0 0 100% 0);
+        }
+        100% {
+            clip-path: inset(0 0 0 0);
+        }
     }
 </style>

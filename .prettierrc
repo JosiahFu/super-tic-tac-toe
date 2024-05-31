@@ -9,7 +9,5 @@
     "singleAttributePerLine": false,
     "semi": false,
     "plugins": ["prettier-plugin-svelte", "prettier-plugin-organize-imports"],
-    "overrides": [
-        { "files": "*.svelte", "options": { "parser": "svelte" } }
-    ]
+    "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
 }

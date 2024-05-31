@@ -1,8 +1,12 @@
-import { derived, type Writable } from 'svelte/store';
+import { derived, type Writable } from 'svelte/store'
 
-export function derivedWritable<T, U>(source: Writable<T>, to: (value: T) => U, from: (value: U) => T): Writable<U> {
+export function derivedWritable<T, U>(
+    source: Writable<T>,
+    to: (value: T) => U,
+    from: (value: U) => T
+): Writable<U> {
     const store = derived(source, to)
-    
+
     return {
         ...store,
         set(value) {
