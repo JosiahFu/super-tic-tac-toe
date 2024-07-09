@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@castlenine/svelte-qrcode": "^2.2.0",
-    "peerjs": "^1.5.4"
+    "peerjs": "^1.5.4",
+    "vite-plugin-pwa": "^0.20.0"
   }
 }
